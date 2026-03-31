@@ -1,0 +1,15 @@
+run entire aplication: streamlit run app.py
+enviorment activation: venv\scripts\activate
+
+
+
+model activation: ollama run MedAIBase/MedGemma1.5:4b
+model deactivation: ollama stop MedAIBase/MedGemma1.5:4b
+
+
+other install
+https://ffmpeg.org/download.html
+
+dependencies 
+speech 2 text: pip install sounddevice scipy
+/

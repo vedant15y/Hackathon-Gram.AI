@@ -1,0 +1,1116 @@
+<html lang="en" class="scroll-smooth"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gram.AI — Advanced Medical AI Assistant</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;display=swap">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<style>
+  .font-geist { font-family: 'Geist', sans-serif !important; }
+  
+  /* Animations */
+  @keyframes fadeSlideIn {
+    0% { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .animate-fade-in {
+    animation: fadeSlideIn 0.8s ease-out forwards;
+  }
+  .animate-fade {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  .delay-100 { animation-delay: 100ms; opacity: 0; }
+  .delay-200 { animation-delay: 200ms; opacity: 0; }
+  .delay-300 { animation-delay: 300ms; opacity: 0; }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Hide element utility */
+  .hidden-view { display: none !important; }
+  
+  /* Checkbox Custom */
+  .custom-checkbox {
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  .custom-checkbox:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+  }
+  .custom-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 1px;
+    width: 3px;
+    height: 6px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+</style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased font-geist relative overflow-x-hidden min-h-screen flex flex-col">
+
+  <!-- Global Particles Overlay -->
+  <div class="fixed inset-0 z-[5] pointer-events-none mix-blend-screen opacity-50">
+    <div id="particles-js" class="absolute inset-0 w-full h-full"></div>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          particlesJS('particles-js', {
+              particles: {
+                  number: { value: 40, density: { enable: true, value_area: 800 } },
+                  color: { value: "#3b82f6" },
+                  shape: { type: "circle" },
+                  opacity: { value: 0.3, random: true },
+                  size: { value: 2, random: true },
+                  line_linked: { enable: true, distance: 150, color: "#3b82f6", opacity: 0.1, width: 1 },
+                  move: { enable: true, speed: 1, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+              },
+              interactivity: { detect_on: "window", events: { onhover: { enable: false }, onclick: { enable: false }, resize: true } },
+              retina_detect: true
+          });
+      });
+    </script>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODALS & OVERLAYS                          -->
+  <!-- ========================================== -->
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="hidden-view fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl max-w-sm w-full shadow-2xl relative overflow-hidden">
+      <button onclick="closeAuth()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition z-10">
+        <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+      </button>
+      
+      <div class="p-8">
+        <div class="flex items-center gap-2 justify-center mb-6">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center ring-1 ring-blue-500/30">
+            <iconify-icon icon="solar:health-linear" class="text-blue-400 text-lg"></iconify-icon>
+          </div>
+          <span class="font-semibold tracking-tight text-white text-lg">Gram.AI</span>
+        </div>
+
+        <h3 id="auth-title" class="text-xl font-semibold text-white tracking-tight mb-1 text-center">Welcome back</h3>
+        <p id="auth-subtitle" class="text-sm text-slate-400 text-center mb-6">Log in to your isolated workspace</p>
+
+        <form onsubmit="handleAuth(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Email Address</label>
+            <input type="email" required="" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 transition" placeholder="doctor@hospital.org">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1.5">Password</label>
+            <input type="password" required="" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 transition" placeholder="••••••••">
+          </div>
+          
+          <div class="flex items-center justify-between mt-2">
+            <label class="flex items-center gap-2 cursor-pointer group">
+              <input type="checkbox" class="custom-checkbox w-3.5 h-3.5">
+              <span class="text-xs text-slate-400 group-hover:text-white transition">Remember me</span>
+            </label>
+            <a href="#" class="text-xs text-blue-400 hover:text-blue-300 transition">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="w-full rounded-lg bg-white text-slate-950 py-2.5 text-sm font-medium hover:bg-slate-200 transition mt-2 flex justify-center items-center gap-2">
+            <span id="auth-btn-text">Sign In</span>
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </button>
+        </form>
+
+        <p class="text-center text-xs text-slate-400 mt-6">
+          <span id="auth-switch-text">Don't have an account?</span> 
+          <button onclick="toggleAuthMode()" class="text-white font-medium hover:underline ml-1" id="auth-switch-btn">Sign up</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Tool Modal -->
+  <div id="tool-modal" class="hidden-view fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade">
+    <div class="bg-slate-900 border border-white/10 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative">
+      <button onclick="closeToolModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+        <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+      </button>
+      <div id="tool-modal-content" class="mt-2">
+        <!-- Content injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- VIEW 1: LANDING PAGE                       -->
+  <!-- ========================================== -->
+  <div id="landing-page" class="flex-1 flex flex-col relative z-10 transition-opacity duration-500">
+    
+    <!-- Background Elements -->
+    <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[120px]"></div>
+      <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-teal-600/10 blur-[120px]"></div>
+      <div class="absolute inset-y-0 left-[25%] w-px bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+      <div class="absolute inset-y-0 left-[50%] w-px bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+      <div class="absolute inset-y-0 left-[75%] w-px bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="z-20 border-b border-white/5 relative">
+      <div class="flex md:px-8 max-w-7xl mx-auto py-5 px-6 items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center ring-1 ring-blue-500/30">
+            <iconify-icon icon="solar:health-linear" class="text-blue-400 text-lg"></iconify-icon>
+          </div>
+          <span class="font-semibold tracking-tight text-white text-lg">Gram.AI</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="#" class="text-sm font-medium text-slate-400 hover:text-white transition">Features</a>
+          <a href="#technology" class="text-sm font-medium text-slate-400 hover:text-white transition">Technology</a>
+          <a href="#" class="text-sm font-medium text-slate-400 hover:text-white transition">Security</a>
+        </nav>
+        <div>
+          <button onclick="openAuth('login')" class="inline-flex items-center gap-2 transition hover:bg-white/10 hover:ring-white/20 text-sm font-medium text-white bg-white/5 ring-white/10 ring-1 rounded-full py-2 px-4 backdrop-blur-sm">
+            Log in
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="flex-1 flex flex-col justify-center relative pt-20 pb-32">
+      <section class="px-6 md:px-8 max-w-7xl mx-auto w-full text-center">
+        
+        <div class="inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-300 ring-1 ring-blue-500/20 mb-8 animate-fade-in">
+          <iconify-icon icon="solar:shield-check-linear"></iconify-icon>
+          HIPAA Compliant Medical Assistant
+        </div>
+
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white mb-6 animate-fade-in delay-100 max-w-4xl mx-auto leading-[1.1]">
+          Clinical intelligence at your fingertips.
+        </h1>
+        
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 animate-fade-in delay-200 leading-relaxed font-light">
+          Gram.AI empowers healthcare professionals with advanced conversational AI. Instantly analyze medical images, transcribe patient notes via voice, and access evidence-based insights.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-300">
+          <button onclick="openAuth('login')" class="inline-flex items-center justify-center gap-2 rounded-full bg-white text-slate-950 px-8 py-3.5 text-sm font-medium hover:bg-slate-200 transition ring-1 ring-transparent hover:ring-white/50 w-full sm:w-auto shadow-lg shadow-white/10">
+            Open Chatbot
+            <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+          </button>
+        </div>
+
+        <!-- App Preview Image -->
+        <div class="mt-20 relative mx-auto max-w-5xl animate-fade-in delay-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden shadow-2xl shadow-blue-900/20 cursor-pointer hover:bg-slate-800/50 transition" onclick="openAuth('login')">
+             <div class="rounded-xl overflow-hidden bg-slate-950 border border-white/5 aspect-[16/9] flex items-center justify-center relative">
+               <div class="absolute inset-0 bg-[url('https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/d521c037-f8b6-43a7-ae68-c6c1d0215733_3840w.webp')] bg-cover opacity-20 mix-blend-luminosity"></div>
+               <div class="relative flex flex-col items-center">
+                 <iconify-icon icon="solar:health-linear" class="text-6xl text-blue-500/40 mb-4"></iconify-icon>
+                 <span class="text-sm font-medium text-slate-300 bg-slate-900/80 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md">Click to enter secure workspace</span>
+               </div>
+             </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Featured Tools Section -->
+    <section id="technology" class="py-24 relative z-20 border-t border-white/5 bg-slate-950/50 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 md:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-semibold tracking-tight text-white">Powered by advanced technology</h2>
+          <p class="mt-4 text-base text-slate-400">Interactive modules designed for accuracy, speed, and seamless experiences. Click to learn more.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Tool 1 -->
+          <button onclick="openToolModal('aura')" class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition group text-left w-full relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 text-blue-400 group-hover:scale-110 transition-transform relative z-10">
+              <iconify-icon icon="solar:palette-linear" class="text-xl"></iconify-icon>
+            </div>
+            <h3 class="text-lg font-medium text-white tracking-tight mb-2 relative z-10 flex items-center justify-between">
+              Aura UI Design System
+              <iconify-icon icon="solar:arrow-right-up-linear" class="text-slate-500 opacity-0 group-hover:opacity-100 transition"></iconify-icon>
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed font-light relative z-10">
+              Crafted with precision for a clean, accessible, and highly responsive interface tailored for healthcare.
+            </p>
+          </button>
+
+          <!-- Tool 2 -->
+          <button onclick="openToolModal('medgemma')" class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition group text-left w-full relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 text-emerald-400 group-hover:scale-110 transition-transform relative z-10">
+              <iconify-icon icon="solar:brain-linear" class="text-xl"></iconify-icon>
+            </div>
+            <h3 class="text-lg font-medium text-white tracking-tight mb-2 relative z-10 flex items-center justify-between">
+              MedGemma LLM
+              <iconify-icon icon="solar:arrow-right-up-linear" class="text-slate-500 opacity-0 group-hover:opacity-100 transition"></iconify-icon>
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed font-light relative z-10">
+              Built on a specialized, fine-tuned large language model trained extensively on medical literature and clinical guidelines.
+            </p>
+          </button>
+
+          <!-- Tool 3 -->
+          <button onclick="openToolModal('googlecloud')" class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition group text-left w-full relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4 text-indigo-400 group-hover:scale-110 transition-transform relative z-10">
+              <iconify-icon icon="solar:cloud-linear" class="text-xl"></iconify-icon>
+            </div>
+            <h3 class="text-lg font-medium text-white tracking-tight mb-2 relative z-10 flex items-center justify-between">
+              Google Cloud APIs
+              <iconify-icon icon="solar:arrow-right-up-linear" class="text-slate-500 opacity-0 group-hover:opacity-100 transition"></iconify-icon>
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed font-light relative z-10">
+              Leveraging enterprise-grade infrastructure for STT, TTS, Translation, and high-performance multimodal processing.
+            </p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Simple Footer -->
+    <footer class="border-t border-white/5 py-8 text-center text-sm text-slate-500 font-light">
+      <p>© <span id="year"></span> Gram.AI. All rights reserved. For demonstration purposes.</p>
+    </footer>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- VIEW 2: APP DASHBOARD                      -->
+  <!-- ========================================== -->
+  <div id="app-page" class="hidden-view fixed inset-0 z-50 bg-slate-950 flex overflow-hidden">
+    
+    <!-- Sidebar Navigation -->
+    <aside id="app-sidebar" class="w-64 border-r border-white/10 bg-slate-950/80 backdrop-blur-xl flex flex-col transition-transform duration-300 absolute md:relative z-20 h-full -translate-x-full md:translate-x-0 shrink-0">
+      
+      <!-- App Header / Logo -->
+      <div class="h-14 flex items-center px-6 border-b border-white/10 justify-between shrink-0">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="logOut()">
+          <div class="w-6 h-6 rounded-md bg-blue-500/20 flex items-center justify-center ring-1 ring-blue-500/30">
+            <iconify-icon icon="solar:health-linear" class="text-blue-400 text-sm"></iconify-icon>
+          </div>
+          <span class="font-medium tracking-tight text-white text-sm">Gram.AI</span>
+        </div>
+        <button class="md:hidden text-slate-400 hover:text-white" onclick="toggleSidebar()">
+          <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+        </button>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="flex-1 px-3 py-6 flex flex-col gap-1">
+        <button onclick="switchAppView('chatbot')" id="nav-chatbot" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-white/10 text-white">
+          <iconify-icon icon="solar:chat-round-linear" class="text-lg opacity-80"></iconify-icon>
+          Chatbot
+        </button>
+        <button onclick="switchAppView('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5">
+          <iconify-icon icon="solar:pie-chart-2-linear" class="text-lg opacity-80"></iconify-icon>
+          Dashboard
+        </button>
+        <button onclick="switchAppView('patients')" id="nav-patients" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5">
+          <iconify-icon icon="solar:user-id-linear" class="text-lg opacity-80"></iconify-icon>
+          Patient Analysis
+        </button>
+      </nav>
+
+      <!-- User Profile Bottom -->
+      <div class="p-4 border-t border-white/10 shrink-0">
+        <div class="flex items-center justify-between px-2 cursor-pointer hover:bg-white/5 p-2 rounded-lg transition" onclick="logOut()" title="Log out">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 border border-white/10 flex items-center justify-center text-xs font-medium text-white">
+              DR
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-white truncate">Dr. Reynolds</p>
+              <p class="text-[10px] text-emerald-400 truncate">Isolated Session</p>
+            </div>
+          </div>
+          <iconify-icon icon="solar:logout-2-linear" class="text-slate-500"></iconify-icon>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col relative w-full h-full bg-slate-950 overflow-hidden">
+      
+      <!-- Mobile Header Overlay -->
+      <header class="md:hidden h-14 border-b border-white/10 flex items-center justify-between px-4 bg-slate-950/80 backdrop-blur-md z-10 shrink-0">
+        <button class="text-slate-400 hover:text-white" onclick="toggleSidebar()">
+          <iconify-icon icon="solar:hamburger-menu-linear" class="text-2xl"></iconify-icon>
+        </button>
+        <span class="font-medium text-sm text-white">Workspace</span>
+        <div class="w-6"></div> <!-- Spacer -->
+      </header>
+
+      <!-- Overlay for mobile sidebar -->
+      <div id="sidebar-overlay" class="hidden-view fixed inset-0 bg-black/50 backdrop-blur-sm z-10 md:hidden" onclick="toggleSidebar()"></div>
+
+      <!-- ==================== SUB-VIEW: CHATBOT ==================== -->
+      <div id="view-chatbot" class="flex-1 flex h-full overflow-hidden relative">
+        
+        <!-- Collapsible Left Panel for Image Previews -->
+        <div id="chat-image-panel" class="hidden md:flex w-0 border-r border-white/5 bg-slate-900/40 flex-col transition-all duration-300 overflow-hidden shrink-0">
+          <div class="h-14 p-4 border-b border-white/5 flex justify-between items-center shrink-0 w-72">
+            <span class="text-sm font-medium text-white flex items-center gap-2">
+              <iconify-icon icon="solar:gallery-linear" class="text-blue-400"></iconify-icon>
+              Media Analysis
+            </span>
+            <button onclick="toggleImagePanel(false)" class="text-slate-400 hover:text-white transition">
+              <iconify-icon icon="solar:close-circle-linear" class="text-lg"></iconify-icon>
+            </button>
+          </div>
+          <div class="p-4 flex-1 overflow-y-auto custom-scrollbar w-72 space-y-4">
+            <div>
+              <div class="rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-square relative group">
+                <div class="absolute inset-0 bg-gradient-to-tr from-slate-700 to-slate-600 mix-blend-overlay"></div>
+                <!-- Simulated Image -->
+                <div class="absolute inset-0 flex items-center justify-center text-slate-500 group-hover:scale-105 transition duration-500">
+                   <iconify-icon icon="solar:bone-linear" class="text-6xl opacity-30"></iconify-icon>
+                </div>
+                <div class="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                  <p class="text-xs text-white truncate font-medium">lumbar_mri_sagittal.dcm</p>
+                  <p class="text-[10px] text-slate-400">Uploaded 10m ago • 4.2 MB</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-blue-500/5 border border-blue-500/10 rounded-lg p-3">
+              <p class="text-xs font-medium text-blue-300 mb-1">MedGemma Vision Scan</p>
+              <p class="text-[11px] text-slate-400 leading-relaxed">Active regions identified at L4-L5 disc intersection. High confidence of nerve root impingement detected in preliminary processing.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+          <!-- Header -->
+          <div class="h-14 border-b border-white/5 flex items-center justify-between px-6 shrink-0 bg-slate-950/50 backdrop-blur-md">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-medium text-white">New Consultation</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">MedGemma v2</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <button onclick="toggleImagePanel(true)" id="panel-toggle-btn" class="hidden text-blue-400 hover:text-blue-300 text-sm items-center gap-1 transition bg-blue-500/10 px-2 py-1 rounded">
+                <iconify-icon icon="solar:sidebar-minimalistic-linear"></iconify-icon>
+                View Media
+              </button>
+              <button class="text-slate-400 hover:text-white text-sm flex items-center gap-1 transition">
+                <iconify-icon icon="solar:trash-bin-trash-linear"></iconify-icon>
+                Clear
+              </button>
+            </div>
+          </div>
+          <!-- Chat History -->
+          <div id="chat-history" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+          </div>     
+
+          <!-- Input Area -->
+          <div class="p-4 md:p-6 pt-0 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950 to-transparent">
+            <div class="max-w-4xl mx-auto relative group">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+              <div class="relative bg-slate-900 border border-white/10 rounded-2xl flex flex-col p-2 shadow-xl">
+                
+                <!-- Multi-line Textarea -->
+                <textarea rows="1" placeholder="Describe symptoms, dictate notes, or ask for analysis..." class="w-full bg-transparent text-sm text-white placeholder-slate-500 resize-none outline-none px-3 pt-2 pb-10 custom-scrollbar min-h-[52px] max-h-32" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
+                
+                <!-- Bottom Controls -->
+                <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+                  <div class="flex items-center gap-1">
+                    <!-- Image Upload -->
+                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Upload Media" onclick="toggleImagePanel(true)">
+                      <iconify-icon icon="solar:gallery-add-linear" class="text-lg"></iconify-icon>
+                    </button>
+                    <!-- Microphone S2T -->
+                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Speech-to-Text">
+                      <iconify-icon icon="solar:microphone-2-linear" class="text-lg"></iconify-icon>
+                    </button>
+                    <!-- Translation -->
+                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Translation Services">
+                      <iconify-icon icon="solar:global-linear" class="text-lg"></iconify-icon>
+                    </button>
+                  </div>
+                  
+                  <!-- Send Button -->
+                  <button onclick="sendMessage()" class="w-8 h-8 rounded-lg bg-white text-slate-950 flex items-center justify-center hover:bg-slate-200 transition">
+                    <iconify-icon icon="solar:send-linear" class="text-lg"></iconify-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="text-center mt-2 flex justify-between items-center px-2">
+                <span class="text-[10px] text-slate-500 font-light">Gram.AI can make mistakes. Verify critical medical information.</span>
+                <span class="text-[10px] text-slate-500 font-light flex items-center gap-1"><iconify-icon icon="solar:lock-password-linear"></iconify-icon> Encrypted Session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SUB-VIEW: DASHBOARD ==================== -->
+      <div id="view-dashboard" class="hidden-view flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8">
+        <div class="max-w-6xl mx-auto space-y-8">
+          
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-semibold tracking-tight text-white">Your Insights</h2>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="text-xs text-slate-400">System Operational</span>
+            </div>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-sm font-medium">Patients Analyzed</span>
+                <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-lg"></iconify-icon>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-semibold text-white tracking-tight">142</span>
+                <span class="text-xs text-emerald-400 font-medium">+12%</span>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-sm font-medium">AI Interactions</span>
+                <iconify-icon icon="solar:chat-line-linear" class="text-lg"></iconify-icon>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-semibold text-white tracking-tight">856</span>
+                <span class="text-xs text-emerald-400 font-medium">+24%</span>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-sm font-medium">Avg. Time Saved</span>
+                <iconify-icon icon="solar:stopwatch-linear" class="text-lg"></iconify-icon>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-semibold text-white tracking-tight">4.2m</span>
+              </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+              <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-sm font-medium">Media Uploads</span>
+                <iconify-icon icon="solar:gallery-linear" class="text-lg"></iconify-icon>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-semibold text-white tracking-tight">38</span>
+                <span class="text-xs text-emerald-400 font-medium">+5%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Chart Placeholder -->
+            <div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
+              <h3 class="text-sm font-medium text-white mb-6">Interaction Volume (Last 7 Days)</h3>
+              <div class="flex-1 flex items-end gap-2 sm:gap-4 h-48 mt-auto border-b border-white/10 pb-2 relative">
+                <!-- Y-axis labels -->
+                <div class="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[10px] text-slate-600 -translate-x-full pr-2">
+                  <span>100</span><span>50</span><span>0</span>
+                </div>
+                <!-- Bars -->
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 40%"></div></div>
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 65%"></div></div>
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 45%"></div></div>
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 80%"></div></div>
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 55%"></div></div>
+                <div class="flex-1 bg-teal-500/20 rounded-t-sm relative group hover:bg-teal-500/30 transition"><div class="absolute bottom-0 w-full bg-teal-400 rounded-t-sm transition-all duration-500" style="height: 90%"></div></div>
+                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 60%"></div></div>
+              </div>
+              <div class="flex justify-between mt-2 text-[10px] text-slate-500 px-1">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span class="text-teal-400 font-medium">Sat</span><span>Sun</span>
+              </div>
+            </div>
+
+            <!-- Recent Activity List -->
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
+              <h3 class="text-sm font-medium text-white mb-4">Recent Generations</h3>
+              <div class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
+                <!-- Item -->
+                <div class="flex gap-3 items-start">
+                  <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center shrink-0 border border-white/5">
+                    <iconify-icon icon="solar:document-text-linear" class="text-slate-400"></iconify-icon>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-slate-200">Clinical Note Summary</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Patient ID: 8992 • 10m ago</p>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="flex gap-3 items-start">
+                  <div class="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
+                    <iconify-icon icon="solar:gallery-linear" class="text-blue-400"></iconify-icon>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-slate-200">MRI Analysis (Lumbar)</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Patient ID: 4421 • 1h ago</p>
+                  </div>
+                </div>
+                <!-- Item -->
+                <div class="flex gap-3 items-start">
+                  <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center shrink-0 border border-white/5">
+                    <iconify-icon icon="solar:microphone-2-linear" class="text-slate-400"></iconify-icon>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-slate-200">Voice Dictation Transcribed</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">General Notes • 3h ago</p>
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-4 py-2 border border-white/10 rounded-lg text-xs font-medium text-slate-300 hover:bg-white/5 transition">View Full History</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SUB-VIEW: PATIENT ANALYSIS ==================== -->
+      <div id="view-patients" class="hidden-view flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8">
+        <div class="max-w-6xl mx-auto space-y-6">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <h2 class="text-2xl font-semibold tracking-tight text-white">Patient Database</h2>
+            
+            <!-- Search & Filter -->
+            <div class="flex items-center gap-2">
+              <div class="relative">
+                <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></iconify-icon>
+                <input type="text" placeholder="Search patients..." class="bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 w-full sm:w-64 transition">
+              </div>
+              <button class="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-2 text-sm">
+                <iconify-icon icon="solar:filter-linear"></iconify-icon>
+                Filter
+              </button>
+            </div>
+          </div>
+
+          <!-- Patient Trends Mini-Graph -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+               <h3 class="text-sm font-medium text-white">Patient Admission Trends</h3>
+               <span class="text-xs text-slate-500">Current Month</span>
+            </div>
+            <div class="h-16 flex items-end gap-1 w-full opacity-70">
+              <!-- Simulated Line Chart via Heights -->
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 30%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 40%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 35%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 60%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 50%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 70%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 45%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 80%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 90%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 60%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 55%"></div>
+              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 75%"></div>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm whitespace-nowrap">
+                <thead class="bg-slate-900/50 text-slate-400 border-b border-white/10">
+                  <tr>
+                    <th class="px-6 py-4 font-medium">Patient</th>
+                    <th class="px-6 py-4 font-medium">ID</th>
+                    <th class="px-6 py-4 font-medium">Last Visit</th>
+                    <th class="px-6 py-4 font-medium">AI Insight Summary</th>
+                    <th class="px-6 py-4 font-medium text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 text-slate-200 font-light">
+                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
+                    <td class="px-6 py-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-medium">JD</div>
+                      <span class="font-medium">John Doe</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">PT-8992</td>
+                    <td class="px-6 py-4">Oct 24, 2023</td>
+                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Elevated BP noted. Recommended follow-up in 2 weeks.</td>
+                    <td class="px-6 py-4 text-right">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Review</span>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
+                    <td class="px-6 py-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-medium">AS</div>
+                      <span class="font-medium">Alice Smith</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">PT-4421</td>
+                    <td class="px-6 py-4">Today, 09:30 AM</td>
+                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">MRI analyzed. L4-L5 disc extrusion detected.</td>
+                    <td class="px-6 py-4 text-right">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Action Req</span>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
+                    <td class="px-6 py-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-rose-500/20 text-rose-300 flex items-center justify-center text-xs font-medium">MJ</div>
+                      <span class="font-medium">Michael Johnson</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">PT-1024</td>
+                    <td class="px-6 py-4">Oct 15, 2023</td>
+                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Routine checkup. Labs within normal limits.</td>
+                    <td class="px-6 py-4 text-right">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Stable</span>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
+                    <td class="px-6 py-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs font-medium">EW</div>
+                      <span class="font-medium">Emily Wong</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">PT-5531</td>
+                    <td class="px-6 py-4">Oct 10, 2023</td>
+                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Transcription complete. Referred to physical therapy.</td>
+                    <td class="px-6 py-4 text-right">
+                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Stable</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination Footer -->
+            <div class="p-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+              <span>Showing 1 to 4 of 142 entries</span>
+              <div class="flex items-center gap-1">
+                <button class="px-2 py-1 hover:text-white transition cursor-not-allowed opacity-50">Prev</button>
+                <button class="px-2 py-1 bg-white/10 text-white rounded">1</button>
+                <button class="px-2 py-1 hover:text-white transition">2</button>
+                <button class="px-2 py-1 hover:text-white transition">3</button>
+                <button class="px-2 py-1 hover:text-white transition">Next</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // --- Auth Logic ---
+    let isLoginMode = true;
+    
+    function openAuth(mode) {
+      document.getElementById('auth-modal').classList.remove('hidden-view');
+      isLoginMode = mode === 'login';
+      updateAuthUI();
+    }
+    
+    function closeAuth() {
+      document.getElementById('auth-modal').classList.add('hidden-view');
+    }
+    
+    function toggleAuthMode() {
+      isLoginMode = !isLoginMode;
+      updateAuthUI();
+    }
+    
+    function updateAuthUI() {
+      document.getElementById('auth-title').textContent = isLoginMode ? 'Welcome back' : 'Create an account';
+      document.getElementById('auth-subtitle').textContent = isLoginMode ? 'Log in to your isolated workspace' : 'Secure, isolated data for medical professionals';
+      document.getElementById('auth-btn-text').textContent = isLoginMode ? 'Sign In' : 'Register';
+      document.getElementById('auth-switch-text').textContent = isLoginMode ? "Don't have an account?" : "Already have an account?";
+      document.getElementById('auth-switch-btn').textContent = isLoginMode ? "Sign up" : "Log in";
+    }
+    
+    async function handleAuth(e) {
+  e.preventDefault();
+
+  const email = document.querySelector('#auth-modal input[type="email"]').value;
+  const password = document.querySelector('#auth-modal input[type="password"]').value;
+
+  const endpoint = isLoginMode ? "/login" : "/signup";
+
+  try {
+    const res = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (data.status === "success") {
+      // ✅ STORE USER DATA
+      localStorage.setItem("user_id", data.user_id);
+      localStorage.setItem("email", email);
+
+      closeAuth();
+      navigateToApp();   // ✅ THIS IS REQUIRED;
+      
+    } else {
+      alert(data.error || "Login failed");
+    }
+
+  } catch (err) {
+    alert("⚠️ Cannot connect to server");
+  }
+}
+    // --- Navigation Logic ---
+    const landingPage = document.getElementById('landing-page');
+    const appPage = document.getElementById('app-page');
+    
+    function navigateToApp() {
+      landingPage.classList.add('opacity-0');
+
+      setTimeout(() => {
+        landingPage.classList.add('hidden-view');
+        appPage.classList.remove('hidden-view');
+
+        setTimeout(() => {
+          attachEnterHandler();
+          loadHistory();   // ✅ ONLY HERE
+        }, 200);
+
+      }, 500);
+    }
+
+    function logOut() {
+      appPage.classList.add('hidden-view');
+      landingPage.classList.remove('hidden-view');
+      setTimeout(() => {
+        landingPage.classList.remove('opacity-0');
+      }, 50);
+    }
+    async function loadHistory() {
+  const user_id = localStorage.getItem("user_id");
+  if (!user_id) return;
+
+  try {
+    const res = await fetch("http://127.0.0.1:5000/history", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ user_id })
+    });
+
+    const data = await res.json();
+
+    const chatHistory = document.getElementById("chat-history");
+    chatHistory.innerHTML = "";
+
+    data.history.forEach(msg => {
+      appendMessage(msg.role, msg.message);
+    });
+
+  } catch (err) {
+    console.error("History load failed", err);
+  }
+}
+
+    // --- App Sub-page Routing ---
+    const views = ['chatbot', 'dashboard', 'patients'];
+    
+    function switchAppView(viewName) {
+      views.forEach(v => {
+        document.getElementById(`view-${v}`).classList.add('hidden-view');
+        const navBtn = document.getElementById(`nav-${v}`);
+        navBtn.className =
+          "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5";
+      });
+
+      document.getElementById(`view-${viewName}`).classList.remove('hidden-view');
+      const activeNavBtn = document.getElementById(`nav-${viewName}`);
+      activeNavBtn.className =
+        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-white/10 text-white";
+
+      if (window.innerWidth < 768) {
+        const sidebar = document.getElementById('app-sidebar');
+        if (!sidebar.classList.contains('-translate-x-full')) {
+         toggleSidebar();
+      }
+    }
+
+    if (viewName === "chatbot") {
+      setTimeout(() => {
+        attachEnterHandler();
+      }, 100);
+  }
+     }
+
+    // --- Mobile Sidebar Toggle ---
+    function toggleSidebar() {
+      const sidebar = document.getElementById('app-sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      
+      if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden-view');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden-view');
+      }
+    }
+
+    // --- Chat Image Panel Toggle ---
+    let isImagePanelOpen = false;
+    function toggleImagePanel(forceOpen = null) {
+      const panel = document.getElementById('chat-image-panel');
+      const toggleBtn = document.getElementById('panel-toggle-btn');
+      
+      if (forceOpen !== null) {
+        isImagePanelOpen = forceOpen;
+      } else {
+        isImagePanelOpen = !isImagePanelOpen;
+      }
+      
+      if (isImagePanelOpen) {
+        panel.classList.remove('w-0');
+        panel.classList.add('w-72');
+        toggleBtn.classList.remove('hidden');
+        toggleBtn.classList.add('flex');
+      } else {
+        panel.classList.remove('w-72');
+        panel.classList.add('w-0');
+        toggleBtn.classList.add('hidden');
+        toggleBtn.classList.remove('flex');
+      }
+    }
+
+    // --- Featured Tools Modal ---
+    const toolData = {
+      aura: {
+        icon: 'solar:palette-linear',
+        color: 'text-blue-400',
+        bg: 'bg-blue-500/10',
+        border: 'border-blue-500/20',
+        title: 'Aura UI Design System',
+        desc: 'A robust styling library created for precision. It enforces strict spacing, typography, and responsive behaviors to ensure the Gram.AI interface feels native, fast, and accessible for high-stakes healthcare environments.'
+      },
+      medgemma: {
+        icon: 'solar:brain-linear',
+        color: 'text-emerald-400',
+        bg: 'bg-emerald-500/10',
+        border: 'border-emerald-500/20',
+        title: 'MedGemma LLM',
+        desc: 'Built on top of a highly specialized language model trained extensively on verified medical literature, research papers, and clinical guidelines. It provides evidence-based analysis while maintaining strict privacy standards.'
+      },
+      googlecloud: {
+        icon: 'solar:cloud-linear',
+        color: 'text-indigo-400',
+        bg: 'bg-indigo-500/10',
+        border: 'border-indigo-500/20',
+        title: 'Google Cloud APIs',
+        desc: `Leveraging enterprise-grade Google Cloud infrastructure to power critical application features:
+        <ul class="list-disc pl-4 mt-3 space-y-2 text-slate-300">
+          <li><strong>Speech-to-Text:</strong> Converts voice input into text instantly, allowing hands-free clinical dictation.</li>
+          <li><strong>Text-to-Speech:</strong> Converts AI responses into audio for accessible, screen-free interaction.</li>
+          <li><strong>Translation Services:</strong> Enables real-time multilingual interaction, bridging the gap between non-native patients and clinical staff.</li>
+        </ul>`
+      }
+    };
+
+    function openToolModal(toolId) {
+      const data = toolData[toolId];
+      const content = `
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl ${data.bg} border ${data.border} flex items-center justify-center ${data.color}">
+            <iconify-icon icon="${data.icon}" class="text-2xl"></iconify-icon>
+          </div>
+          <h2 class="text-xl font-semibold text-white tracking-tight">${data.title}</h2>
+        </div>
+        <div class="text-sm text-slate-400 leading-relaxed font-light">
+          ${data.desc}
+        </div>
+      `;
+      document.getElementById('tool-modal-content').innerHTML = content;
+      document.getElementById('tool-modal').classList.remove('hidden-view');
+    }
+
+    function closeToolModal() {
+      document.getElementById('tool-modal').classList.add('hidden-view');
+    }
+  </script>
+ 
+
+  <!-- 🔥 ADD YOUR NEW SCRIPT HERE -->
+<script>
+let API = "";
+
+// =========================
+// BACKEND DETECTION
+// =========================
+async function detectBackend() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 1000);
+
+  try {
+    const res = await fetch("http://127.0.0.1:5000/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message: "ping" }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    if (res.ok) {
+      API = "http://127.0.0.1:5000";
+      console.log("✅ LOCAL backend");
+      return;
+    }
+  } catch (e) {}
+
+  API = "http://192.168.1.16:5000";
+  console.log("🌐 REMOTE backend");
+}
+
+
+// =========================
+// UI MESSAGE HANDLING
+// =========================
+function appendMessage(role, text) {
+  const chatHistory = document.getElementById("chat-history");
+
+  const div = document.createElement("div");
+  div.className = "text-sm";
+
+  div.innerHTML = `
+    <strong>${role === "user" ? "You" : "AI"}:</strong> ${text}
+  `;
+
+  chatHistory.appendChild(div);
+  chatHistory.scrollTop = chatHistory.scrollHeight;
+
+  return div;
+}
+
+
+// =========================
+// SEND MESSAGE (STREAMING)
+// =========================
+async function sendMessage() {
+  if (!API) {
+    await detectBackend();
+  }
+
+  const textarea = document.querySelector("textarea");
+  const message = textarea.value.trim();
+  if (!message) return;
+
+  const user_id = localStorage.getItem("user_id");
+
+  appendMessage("user", message);
+  textarea.value = "";
+
+  const aiDiv = appendMessage("ai", "");
+
+  try {
+    const response = await fetch(`${API}/chat-stream`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        user_id: user_id
+      })
+    });
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder("utf-8");
+
+    let fullText = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value);
+      fullText += chunk;
+
+      aiDiv.innerHTML = `<strong>AI:</strong> ${fullText}`;
+    }
+
+  } catch (err) {
+    aiDiv.innerHTML = "<strong>AI:</strong> ⚠️ Streaming failed";
+  }
+}
+
+
+// =========================
+// 🔥 STABLE ENTER HANDLER (FINAL FIX)
+// =========================
+function attachEnterHandler(textarea) {
+  if (!textarea || textarea._enterBound) return;
+
+  textarea._enterBound = true;
+
+  textarea.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  console.log("✅ Enter handler attached");
+}
+
+
+// Observe dynamic UI changes
+const observer = new MutationObserver(() => {
+  const textarea = document.querySelector("textarea");
+  if (textarea) {
+    attachEnterHandler(textarea);
+  }
+});
+
+// Start observing
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
+});
+
+// Initial attach
+attachEnterHandler(document.querySelector("textarea"));
+
+</script>
+</body>
+</html>
