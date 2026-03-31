@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+bin123/
+
+# Environment / secrets
+.env
+*.env
+translation.key.json
+
+# Logs
+*.log
