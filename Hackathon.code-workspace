@@ -19,5 +19,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "hackathon"
+	}
 }

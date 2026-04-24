@@ -1,3 +1,303 @@
+# GCP VM START / STOP + APP STARTUP GUIDE
+
+---
+
+## HOW TO CHECK IF VM IS RUNNING
+
+1. Go to Google Cloud Console
+2. Navigate to:
+   Compute Engine → VM Instances
+3. Check Status:
+
+   * Running → VM is ON
+   * Stopped / Terminated → VM is OFF
+
+---
+
+## HOW TO START THE VM
+
+1. Go to:
+   Compute Engine → VM Instances
+2. Find your VM:
+   med-ai-server
+3. Click:
+   Start / Resume
+4. Wait until:
+   Status = Running
+
+---
+
+## HOW TO CONNECT (SSH)
+
+1. Click:
+   SSH
+2. Wait for terminal to open
+
+---
+
+## HOW TO START OLLAMA (LLM SERVER)
+
+In SSH terminal, run:
+
+sudo systemctl start ollama
+
+Verify:
+
+curl http://127.0.0.1:11434
+
+Expected output:
+Ollama is running
+
+---
+
+## HOW TO START BACKEND (ON LAPTOP)
+
+1. Open terminal on your laptop
+
+2. Go to project folder:
+
+   cd your-project
+
+3. Activate environment:
+
+   Windows:
+   venv\Scripts\activate
+
+   Mac/Linux:
+   source venv/bin/activate
+
+4. Run backend:
+
+   uvicorn server_fastapi:app --reload
+
+---
+
+## HOW TO OPEN FRONTEND
+
+Open browser and go to:
+
+http://127.0.0.1:8000
+
+---
+
+## HOW TO STOP THE VM
+
+Method 1 (Console):
+
+1. Go to:
+   Compute Engine → VM Instances
+2. Click:
+   Stop
+
+Method 2 (SSH):
+sudo shutdown now
+
+---
+
+## IMPORTANT NOTES
+
+* SSH will NOT work if VM is stopped
+* Ollama stops automatically when VM stops
+* You are charged only when VM is running
+* Always stop VM when not in use
+
+---
+
+## QUICK CHECKLIST
+
+✔ VM Running
+✔ SSH Working
+✔ Ollama Running
+✔ Backend Running
+✔ Frontend Open
+
+END OF GUIDE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GRAM.AI SYSTEM STARTUP RUNBOOK
+
+## ARCHITECTURE
+
+Frontend (Laptop)
+↓
+FastAPI Backend (Laptop)
+↓
+Ollama LLM Server (GCP VM)
+↓
+Response
+
+## STEP 1 — START GCP VM
+
+1. Go to Google Cloud Console
+2. Navigate to:
+   Compute Engine → VM Instances
+3. Click:
+   "Start"
+4. Wait until status shows:
+   "Running"
+
+## STEP 2 — START OLLAMA (ON VM)
+
+1. Click SSH on your VM
+
+2. Run:
+
+   sudo systemctl start ollama
+
+3. Verify:
+
+   curl http://127.0.0.1:11434
+
+4. Expected output:
+   "Ollama is running"
+
+## STEP 3 — CHECK MODEL
+
+1. Run:
+
+   ollama list
+
+2. If model not present:
+
+   ollama run MedAIBase/MedGemma1.5:4b
+
+   OR (faster option):
+
+   ollama run phi3
+
+## STEP 4 — START BACKEND (ON LAPTOP)
+
+1. Open terminal
+
+2. Navigate to project:
+
+   cd your-project
+
+3. Activate environment:
+
+   Windows:
+   venv\Scripts\activate
+
+   Mac/Linux:
+   source venv/bin/activate
+
+4. Run server:
+
+   uvicorn server_fastapi:app --reload
+
+## STEP 5 — OPEN FRONTEND
+
+1. Open browser
+2. Go to:
+
+   http://127.0.0.1:8000
+
+## STEP 6 — TEST SYSTEM
+
+1. Enter a prompt:
+
+   "I have chest pain"
+
+2. Verify response is received
+
+## SYSTEM FLOW
+
+Frontend → FastAPI → GCP Ollama → Response
+
+## COMMON ERRORS & FIXES
+
+1. No response:
+   → Check Ollama:
+   sudo systemctl status ollama
+
+2. Cannot connect:
+   → VM stopped OR firewall issue
+
+3. Slow response:
+   → Model not loaded
+   Run:
+   ollama run phi3
+
+4. API error:
+   → Check backend logs
+
+## CHECKLIST BEFORE USE
+
+✔ VM running
+✔ Ollama running
+✔ Model loaded
+✔ Backend running
+✔ Frontend open
+
+## OPTIONAL IMPROVEMENTS
+
+* Use keep_alive = 1h in backend
+* Switch to phi3 for faster inference
+* Move backend to GCP for lower latency
+* Add API key security
+
+END OF FILE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+uvicorn server_fastapi:app --reload --port 8000
+
+uvicorn server_fastapi:app --reload
+
+http://127.0.0.1:8000
+
+
+
+
+
+
 run entire aplication: streamlit run app.py
 enviorment activation: venv\scripts\activate
 

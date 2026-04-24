@@ -9,6 +9,7 @@
 <link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;display=swap">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   .font-geist { font-family: 'Geist', sans-serif !important; }
   
@@ -137,7 +138,7 @@
           
           <div class="flex items-center justify-between mt-2">
             <label class="flex items-center gap-2 cursor-pointer group">
-              <input type="checkbox" class="custom-checkbox w-3.5 h-3.5">
+              <input type="checkbox" id="remember-me" class="custom-checkbox w-3.5 h-3.5">
               <span class="text-xs text-slate-400 group-hover:text-white transition">Remember me</span>
             </label>
             <a href="#" class="text-xs text-blue-400 hover:text-blue-300 transition">Forgot password?</a>
@@ -195,7 +196,7 @@
         <nav class="hidden md:flex items-center gap-6">
           <a href="#" class="text-sm font-medium text-slate-400 hover:text-white transition">Features</a>
           <a href="#technology" class="text-sm font-medium text-slate-400 hover:text-white transition">Technology</a>
-          <a href="#" class="text-sm font-medium text-slate-400 hover:text-white transition">Security</a>
+          <a href="#team" class="text-sm font-medium text-slate-400 hover:text-white transition">Developed by</a>
         </nav>
         <div>
           <button onclick="openAuth('login')" class="inline-flex items-center gap-2 transition hover:bg-white/10 hover:ring-white/20 text-sm font-medium text-white bg-white/5 ring-white/10 ring-1 rounded-full py-2 px-4 backdrop-blur-sm">
@@ -303,6 +304,80 @@
       </div>
     </section>
 
+    <!-- Team Section -->
+    <section id="team" class="py-24 relative z-20 border-t border-white/5 bg-slate-900/50 backdrop-blur-md">
+      <div class="max-w-5xl mx-auto px-6 md:px-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+          <h2 class="text-3xl font-semibold tracking-tight text-white flex items-center gap-3">
+            Neurovia 
+            <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">Approved for Competition</span>
+          </h2>
+          <span class="text-slate-400 text-sm">Track: Health Care</span>
+        </div>
+        
+        <h3 class="text-lg font-medium text-white tracking-tight mb-6">Team Members (7/7)</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+          <!-- Member 1 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">Bhavya Malviya</p>
+               <p class="text-xs text-slate-400 font-light">Business SPOC <br> <span class="text-[10px] text-slate-500">bhavyamalviya777@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 2 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">YASH DEEPAK PAREKH</p>
+               <p class="text-xs text-slate-400 font-light">Product Owner <br> <span class="text-[10px] text-slate-500">parekhyash167@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 3 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5 flex items-center gap-2">Tejas Shivaji Katkar <span class="text-[10px] bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded border border-amber-500/30">Team Leader</span></p>
+               <p class="text-xs text-slate-400 font-light">Developer <br> <span class="text-[10px] text-slate-500">tejassk1555@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 4 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">vedant gondhali</p>
+               <p class="text-xs text-slate-400 font-light">Developer <br> <span class="text-[10px] text-slate-500">vrushalininaad@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 5 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">Yash Baban Agre</p>
+               <p class="text-xs text-slate-400 font-light">Developer <br> <span class="text-[10px] text-slate-500">yashagre92@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 6 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">Tanmay mavani</p>
+               <p class="text-xs text-slate-400 font-light">Technical Lead <br> <span class="text-[10px] text-slate-500">mavanitanmay@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+          <!-- Member 7 -->
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/[0.08] transition">
+            <div>
+               <p class="text-sm font-medium text-white mb-0.5">Sarthak Chache</p>
+               <p class="text-xs text-slate-400 font-light">QA/Testing <br> <span class="text-[10px] text-slate-500">sarthakchache@gmail.com</span></p>
+            </div>
+            <iconify-icon icon="solar:crown-star-linear" class="text-amber-400"></iconify-icon>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Simple Footer -->
     <footer class="border-t border-white/5 py-8 text-center text-sm text-slate-500 font-light">
       <p>© <span id="year"></span> Gram.AI. All rights reserved. For demonstration purposes.</p>
@@ -352,10 +427,10 @@
         <div class="flex items-center justify-between px-2 cursor-pointer hover:bg-white/5 p-2 rounded-lg transition" onclick="logOut()" title="Log out">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 border border-white/10 flex items-center justify-center text-xs font-medium text-white">
-              DR
+              G
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-white truncate">Dr. Reynolds</p>
+              <p id="profile-email" class="text-sm font-medium text-white truncate">User</p>
               <p class="text-[10px] text-emerald-400 truncate">Isolated Session</p>
             </div>
           </div>
@@ -395,21 +470,15 @@
           </div>
           <div class="p-4 flex-1 overflow-y-auto custom-scrollbar w-72 space-y-4">
             <div>
-              <div class="rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-square relative group">
-                <div class="absolute inset-0 bg-gradient-to-tr from-slate-700 to-slate-600 mix-blend-overlay"></div>
-                <!-- Simulated Image -->
-                <div class="absolute inset-0 flex items-center justify-center text-slate-500 group-hover:scale-105 transition duration-500">
-                   <iconify-icon icon="solar:bone-linear" class="text-6xl opacity-30"></iconify-icon>
-                </div>
-                <div class="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                  <p class="text-xs text-white truncate font-medium">lumbar_mri_sagittal.dcm</p>
-                  <p class="text-[10px] text-slate-400">Uploaded 10m ago • 4.2 MB</p>
-                </div>
-              </div>
+             <div id="image-preview-box"
+                  class="relative rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-square flex items-center justify-center">
+              <!-- ❌ Close Button -->
+              <button id="close-preview-btn"
+                      class="hidden absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white text-xs px-2 py-1 rounded-md z-10">
+                ✕
+              </button>
+
             </div>
-            <div class="bg-blue-500/5 border border-blue-500/10 rounded-lg p-3">
-              <p class="text-xs font-medium text-blue-300 mb-1">MedGemma Vision Scan</p>
-              <p class="text-[11px] text-slate-400 leading-relaxed">Active regions identified at L4-L5 disc intersection. High confidence of nerve root impingement detected in preliminary processing.</p>
             </div>
           </div>
         </div>
@@ -450,11 +519,16 @@
                 <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
                   <div class="flex items-center gap-1">
                     <!-- Image Upload -->
-                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Upload Media" onclick="toggleImagePanel(true)">
-                      <iconify-icon icon="solar:gallery-add-linear" class="text-lg"></iconify-icon>
+                    <input type="file" id="image-input" accept="image/*" class="hidden" />
+                    <button 
+                      class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger"
+                      title="Upload Media"
+                      onclick="document.getElementById('image-input').click()"
+                      >
+                        <iconify-icon icon="solar:gallery-add-linear" class="text-lg"></iconify-icon>
                     </button>
                     <!-- Microphone S2T -->
-                    <button class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Speech-to-Text">
+                    <button id="mic-btn" onclick="toggleVoice()" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Speech-to-Text">
                       <iconify-icon icon="solar:microphone-2-linear" class="text-lg"></iconify-icon>
                     </button>
                     <!-- Translation -->
@@ -499,8 +573,7 @@
                 <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-lg"></iconify-icon>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-semibold text-white tracking-tight">142</span>
-                <span class="text-xs text-emerald-400 font-medium">+12%</span>
+                <span id="stat-patients" class="text-3xl font-semibold text-white tracking-tight">0</span>
               </div>
             </div>
             <!-- Card 2 -->
@@ -510,8 +583,7 @@
                 <iconify-icon icon="solar:chat-line-linear" class="text-lg"></iconify-icon>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-semibold text-white tracking-tight">856</span>
-                <span class="text-xs text-emerald-400 font-medium">+24%</span>
+                <span id="stat-interactions" class="text-3xl font-semibold text-white tracking-tight">0</span>
               </div>
             </div>
             <!-- Card 3 -->
@@ -521,7 +593,7 @@
                 <iconify-icon icon="solar:stopwatch-linear" class="text-lg"></iconify-icon>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-semibold text-white tracking-tight">4.2m</span>
+                <span id="stat-time" class="text-3xl font-semibold text-white tracking-tight">0m</span>
               </div>
             </div>
             <!-- Card 4 -->
@@ -531,8 +603,7 @@
                 <iconify-icon icon="solar:gallery-linear" class="text-lg"></iconify-icon>
               </div>
               <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-semibold text-white tracking-tight">38</span>
-                <span class="text-xs text-emerald-400 font-medium">+5%</span>
+                <span id="stat-media" class="text-3xl font-semibold text-white tracking-tight">0</span>
               </div>
             </div>
           </div>
@@ -540,63 +611,28 @@
           <!-- Content Grid -->
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- Chart Placeholder -->
-            <div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
-              <h3 class="text-sm font-medium text-white mb-6">Interaction Volume (Last 7 Days)</h3>
-              <div class="flex-1 flex items-end gap-2 sm:gap-4 h-48 mt-auto border-b border-white/10 pb-2 relative">
-                <!-- Y-axis labels -->
-                <div class="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[10px] text-slate-600 -translate-x-full pr-2">
-                  <span>100</span><span>50</span><span>0</span>
-                </div>
-                <!-- Bars -->
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 40%"></div></div>
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 65%"></div></div>
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 45%"></div></div>
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 80%"></div></div>
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 55%"></div></div>
-                <div class="flex-1 bg-teal-500/20 rounded-t-sm relative group hover:bg-teal-500/30 transition"><div class="absolute bottom-0 w-full bg-teal-400 rounded-t-sm transition-all duration-500" style="height: 90%"></div></div>
-                <div class="flex-1 bg-blue-500/20 rounded-t-sm relative group hover:bg-blue-500/30 transition"><div class="absolute bottom-0 w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: 60%"></div></div>
+            <!-- Clinical Analytics Chart -->
+            <div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col relative w-full h-[350px]">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-sm font-medium text-white">Patient Vitals Trend <span class="text-xs text-emerald-400 ml-2">Stable</span></h3>
+                <select id="chartMetricSelector" onchange="updateDashboardChart()" class="bg-slate-900 border border-white/10 rounded-md text-xs text-white px-2 py-1 outline-none">
+                  <option value="vitals">Heart Rate vs BP</option>
+                  <option value="glucose">Glucose Levels</option>
+                </select>
               </div>
-              <div class="flex justify-between mt-2 text-[10px] text-slate-500 px-1">
-                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span class="text-teal-400 font-medium">Sat</span><span>Sun</span>
+              <div class="flex-1 relative w-full h-full pb-2">
+                <canvas id="dashboardChart"></canvas>
               </div>
             </div>
 
             <!-- Recent Activity List -->
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
               <h3 class="text-sm font-medium text-white mb-4">Recent Generations</h3>
-              <div class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
-                <!-- Item -->
-                <div class="flex gap-3 items-start">
-                  <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center shrink-0 border border-white/5">
-                    <iconify-icon icon="solar:document-text-linear" class="text-slate-400"></iconify-icon>
-                  </div>
-                  <div>
-                    <p class="text-xs font-medium text-slate-200">Clinical Note Summary</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Patient ID: 8992 • 10m ago</p>
-                  </div>
-                </div>
-                <!-- Item -->
-                <div class="flex gap-3 items-start">
-                  <div class="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
-                    <iconify-icon icon="solar:gallery-linear" class="text-blue-400"></iconify-icon>
-                  </div>
-                  <div>
-                    <p class="text-xs font-medium text-slate-200">MRI Analysis (Lumbar)</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Patient ID: 4421 • 1h ago</p>
-                  </div>
-                </div>
-                <!-- Item -->
-                <div class="flex gap-3 items-start">
-                  <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center shrink-0 border border-white/5">
-                    <iconify-icon icon="solar:microphone-2-linear" class="text-slate-400"></iconify-icon>
-                  </div>
-                  <div>
-                    <p class="text-xs font-medium text-slate-200">Voice Dictation Transcribed</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">General Notes • 3h ago</p>
-                  </div>
-                </div>
+              <div id="recent-generations-list" class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
+                <!-- JS will inject dynamic content here -->
+                <p class="text-xs text-slate-500 italic">Listening for recent activity...</p>
               </div>
+
               <button class="w-full mt-4 py-2 border border-white/10 rounded-lg text-xs font-medium text-slate-300 hover:bg-white/5 transition">View Full History</button>
             </div>
 
@@ -615,7 +651,7 @@
             <div class="flex items-center gap-2">
               <div class="relative">
                 <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></iconify-icon>
-                <input type="text" placeholder="Search patients..." class="bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 w-full sm:w-64 transition">
+                <input id="analysis-search" type="text" placeholder="Search Analysis History..." class="bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500/50 w-full sm:w-64 transition" onkeyup="filterAnalysisTable()">
               </div>
               <button class="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-2 text-sm">
                 <iconify-icon icon="solar:filter-linear"></iconify-icon>
@@ -624,106 +660,24 @@
             </div>
           </div>
 
-          <!-- Patient Trends Mini-Graph -->
-          <div class="bg-white/5 border border-white/10 rounded-2xl p-5 mb-6">
-            <div class="flex items-center justify-between mb-4">
-               <h3 class="text-sm font-medium text-white">Patient Admission Trends</h3>
-               <span class="text-xs text-slate-500">Current Month</span>
-            </div>
-            <div class="h-16 flex items-end gap-1 w-full opacity-70">
-              <!-- Simulated Line Chart via Heights -->
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 30%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 40%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 35%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 60%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 50%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 70%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 45%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 80%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 90%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 60%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 55%"></div>
-              <div class="flex-1 bg-indigo-500/40 rounded-t-sm" style="height: 75%"></div>
-            </div>
-          </div>
-
           <!-- Table Container -->
           <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-sm whitespace-nowrap">
-                <thead class="bg-slate-900/50 text-slate-400 border-b border-white/10">
+              <table id="analysis-table" class="w-full text-left text-sm">
+                <thead class="bg-slate-900/50 text-slate-400 border-b border-white/10 whitespace-nowrap">
                   <tr>
-                    <th class="px-6 py-4 font-medium">Patient</th>
-                    <th class="px-6 py-4 font-medium">ID</th>
-                    <th class="px-6 py-4 font-medium">Last Visit</th>
-                    <th class="px-6 py-4 font-medium">AI Insight Summary</th>
-                    <th class="px-6 py-4 font-medium text-right">Status</th>
+                    <th class="px-6 py-4 font-medium w-48">Date / Time</th>
+                    <th class="px-6 py-4 font-medium">Patient Analysis</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-white/5 text-slate-200 font-light">
-                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
-                    <td class="px-6 py-4 flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-medium">JD</div>
-                      <span class="font-medium">John Doe</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-500">PT-8992</td>
-                    <td class="px-6 py-4">Oct 24, 2023</td>
-                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Elevated BP noted. Recommended follow-up in 2 weeks.</td>
-                    <td class="px-6 py-4 text-right">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Review</span>
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
-                    <td class="px-6 py-4 flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-medium">AS</div>
-                      <span class="font-medium">Alice Smith</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-500">PT-4421</td>
-                    <td class="px-6 py-4">Today, 09:30 AM</td>
-                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">MRI analyzed. L4-L5 disc extrusion detected.</td>
-                    <td class="px-6 py-4 text-right">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Action Req</span>
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
-                    <td class="px-6 py-4 flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-full bg-rose-500/20 text-rose-300 flex items-center justify-center text-xs font-medium">MJ</div>
-                      <span class="font-medium">Michael Johnson</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-500">PT-1024</td>
-                    <td class="px-6 py-4">Oct 15, 2023</td>
-                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Routine checkup. Labs within normal limits.</td>
-                    <td class="px-6 py-4 text-right">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Stable</span>
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-white/[0.02] transition cursor-pointer">
-                    <td class="px-6 py-4 flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs font-medium">EW</div>
-                      <span class="font-medium">Emily Wong</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-500">PT-5531</td>
-                    <td class="px-6 py-4">Oct 10, 2023</td>
-                    <td class="px-6 py-4 max-w-xs truncate text-slate-400">Transcription complete. Referred to physical therapy.</td>
-                    <td class="px-6 py-4 text-right">
-                      <span class="inline-flex items-center px-2 py-1 rounded text-[10px] font-medium bg-white/5 text-slate-400 border border-white/10">Stable</span>
-                    </td>
+                <tbody id="patient-analysis-tbody" class="divide-y divide-white/5 text-slate-200 font-light">
+                  <tr>
+                    <td colspan="5" class="px-6 py-4 text-center text-slate-500 italic">Listening for Analysis History...</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             
-            <!-- Pagination Footer -->
-            <div class="p-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-              <span>Showing 1 to 4 of 142 entries</span>
-              <div class="flex items-center gap-1">
-                <button class="px-2 py-1 hover:text-white transition cursor-not-allowed opacity-50">Prev</button>
-                <button class="px-2 py-1 bg-white/10 text-white rounded">1</button>
-                <button class="px-2 py-1 hover:text-white transition">2</button>
-                <button class="px-2 py-1 hover:text-white transition">3</button>
-                <button class="px-2 py-1 hover:text-white transition">Next</button>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -731,6 +685,8 @@
 
     </main>
   </div>
+
+<!-- Scripts  -->
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -742,6 +698,12 @@
       document.getElementById('auth-modal').classList.remove('hidden-view');
       isLoginMode = mode === 'login';
       updateAuthUI();
+      
+      const savedEmail = localStorage.getItem("remembered_email");
+      if (savedEmail) {
+         document.querySelector('#auth-modal input[type="email"]').value = savedEmail;
+         document.getElementById('remember-me').checked = true;
+      }
     }
     
     function closeAuth() {
@@ -761,36 +723,45 @@
       document.getElementById('auth-switch-btn').textContent = isLoginMode ? "Sign up" : "Log in";
     }
     
-    async function handleAuth(e) {
-  e.preventDefault();
+  async function handleAuth(e) {
+    e.preventDefault();
 
-  const email = document.querySelector('#auth-modal input[type="email"]').value;
-  const password = document.querySelector('#auth-modal input[type="password"]').value;
+    const email = document.querySelector('#auth-modal input[type="email"]').value;
+    const password = document.querySelector('#auth-modal input[type="password"]').value;
+    const rememberMe = document.getElementById('remember-me').checked;
 
-  const endpoint = isLoginMode ? "/login" : "/signup";
+    const endpoint = isLoginMode ? "/login" : "/signup";
 
-  try {
-    const res = await fetch(`http://127.0.0.1:5000${endpoint}`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ email, password })
-    });
+    try {
+      const res = await fetch("http://127.0.0.1:8000" + endpoint, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ email, password })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.status === "success") {
-      // ✅ STORE USER DATA
-      localStorage.setItem("user_id", data.user_id);
-      localStorage.setItem("email", email);
+      if (data.status === "success") {
+        localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("email", email);
+        
+        if (rememberMe) {
+            localStorage.setItem("remembered_email", email);
+        } else {
+            localStorage.removeItem("remembered_email");
+        }
+        
+        const profileDisplay = document.getElementById('profile-email');
+        if (profileDisplay) profileDisplay.innerText = email;
+        
+        closeAuth();
+        navigateToApp();
+      } else {
+        alert(data.error || "Login failed");
+      }
 
-      closeAuth();
-      navigateToApp();   // ✅ THIS IS REQUIRED;
-      
-    } else {
-      alert(data.error || "Login failed");
-    }
-
-  } catch (err) {
+    } catch (err) {
+      console.error(err);
     alert("⚠️ Cannot connect to server");
   }
 }
@@ -825,7 +796,7 @@
   if (!user_id) return;
 
   try {
-    const res = await fetch("http://127.0.0.1:5000/history", {
+    const res = await fetch(`${API}/history`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ user_id })
@@ -891,26 +862,27 @@
 
     // --- Chat Image Panel Toggle ---
     let isImagePanelOpen = false;
+
     function toggleImagePanel(forceOpen = null) {
-      const panel = document.getElementById('chat-image-panel');
-      const toggleBtn = document.getElementById('panel-toggle-btn');
-      
+      const panel = document.getElementById("chat-image-panel");
+
+      if (!panel) return;
+
+      // Decide state
       if (forceOpen !== null) {
         isImagePanelOpen = forceOpen;
       } else {
         isImagePanelOpen = !isImagePanelOpen;
       }
-      
+
       if (isImagePanelOpen) {
-        panel.classList.remove('w-0');
-        panel.classList.add('w-72');
-        toggleBtn.classList.remove('hidden');
-        toggleBtn.classList.add('flex');
+        // 🔓 OPEN
+        panel.classList.remove("w-0", "opacity-0", "pointer-events-none");
+        panel.classList.add("w-72", "opacity-100");
       } else {
-        panel.classList.remove('w-72');
-        panel.classList.add('w-0');
-        toggleBtn.classList.add('hidden');
-        toggleBtn.classList.remove('flex');
+        // 🔒 CLOSE
+        panel.classList.remove("w-72", "opacity-100");
+        panel.classList.add("w-0", "opacity-0", "pointer-events-none");
       }
     }
 
@@ -972,79 +944,580 @@
 
   <!-- 🔥 ADD YOUR NEW SCRIPT HERE -->
 <script>
-const API = "http://127.0.0.1:5000";
+/* =========================
+   🔥 API CONFIG
+========================= */
 
-// Target correct chat area
+const API = "http://127.0.0.1:8000";
+let selectedImage = null;
 
-// Target correct input
+/* =========================
+   📸 IMAGE LISTENER (SAFE INIT)
+========================= */
 
+window.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("image-input");
 
-// Add message to UI
-function appendMessage(role, text) {
-  const isAI = role === "ai";
+  if (!input) {
+    console.warn("image-input not found");
+    return;
+  }
+
+  input.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    selectedImage = file;
+
+    // Optional: open side panel
+    toggleImagePanel(true);
+
+    const previewBox = document.getElementById("image-preview-box");
+    const panelContent = document.querySelector("#chat-image-panel .p-4");
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const imageHTML = `
+        <img src="${e.target.result}" class="w-full h-full object-cover rounded-xl"/>
+      `;
+
+      // ✅ MAIN PREVIEW BOX (WITH CLOSE + COLLAPSE)
+      if (previewBox) {
+        previewBox.innerHTML = `
+          <!-- ❌ Close -->
+          <button id="close-preview-btn"
+             class="absolute top-2 right-10 bg-black/60 hover:bg-black/80 text-white text-xs px-2 py-1 rounded-md z-10">
+              ✕
+          </button>
+
+          <!-- 🔽 Arrow Toggle -->
+          <button id="toggle-preview-btn"
+            class="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white text-xs px-2 py-1 rounded-md z-10">
+            ⬇
+          </button>
+
+          <div id="preview-content" class="w-full h-full">
+           ${imageHTML}
+          </div>
+        `;
+      }
+
+      // ✅ SIDE PANEL (OPTIONAL)
+      if (panel) {
+        panel.innerHTML = `
+          <div class="rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-square">
+            ${imageHTML}
+            <p class="text-xs text-white mt-1 truncate px-1">${file.name}</p>
+          </div>
+        `;
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  /* =========================
+     ❌ CLOSE BUTTON
+  ========================= */
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "close-preview-btn") {
+      const previewBox = document.getElementById("image-preview-box");
+
+      if (previewBox) {
+        previewBox.innerHTML = "";
+      }
+
+      selectedImage = null;
+    }
+  });
+
+  /* =========================
+     🔽 COLLAPSE TOGGLE
+  ========================= */
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "toggle-preview-btn") {
+      const content = document.getElementById("preview-content");
+      const previewBox = document.getElementById("image-preview-box");
+
+      if (!content || !previewBox) return;
+
+      const isCollapsed = content.classList.contains("hidden");
+
+      if (isCollapsed) {
+        // 🔼 EXPAND
+        content.classList.remove("hidden");   // expand
+        previewBox.classList.remove("h-12");
+        previewBox.classList.add("aspect-square");
+        e.target.innerText = "⤡";
+      } else {
+        // 🔽 COLLAPSE
+        content.classList.add("hidden");      // collapse
+        previewBox.classList.remove("aspect-square");
+        previewBox.classList.add("h-12");
+        e.target.innerText = "⤢";
+      }
+    }
+  });
+});
+/* =========================
+   💬 CHAT MESSAGE HANDLING
+========================= */
+
+function appendMessage(role, text, imageURL = null) {
+  const chatHistory = document.getElementById("chat-history");
 
   const div = document.createElement("div");
-  div.className = `flex gap-4 max-w-3xl ${isAI ? "" : "ml-auto justify-end"}`;
+  div.className = "text-sm";
 
-  div.innerHTML = isAI ? `
-    <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-      <iconify-icon icon="solar:health-linear"></iconify-icon>
+  let content = "";
+
+  if (imageURL) {
+    content += `
+      <div class="mb-2">
+        <img src="${imageURL}" class="rounded-lg max-w-xs border border-white/10"/>
+      </div>
+    `;
+  }
+
+  content += `<div>${text}</div>`;
+
+  div.innerHTML = `
+    <div class="p-3 rounded-lg ${
+      role === "user"
+        ? "bg-blue-500/10 text-blue-200"
+        : "bg-white/5 text-white"
+    }">
+      <strong>${role === "user" ? "You" : "AI"}:</strong><br>
+      ${content}
     </div>
-    <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-4 text-sm text-slate-200">${text}</div>
-  ` : `
-    <div class="inline-block bg-white/10 border border-white/10 rounded-2xl px-4 py-2 text-sm text-white">${text}</div>
   `;
 
-  const chat = document.getElementById("chat-history");
-chat.appendChild(div);
-chat.scrollTop = chat.scrollHeight;
+  chatHistory.appendChild(div);
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
-// Send message to backend
+/* =========================
+   📤 SEND MESSAGE
+========================= */
+
 async function sendMessage() {
-  const textarea = document.querySelector('#view-chatbot textarea');
-  const message = textarea.value.trim();
+  const textarea = document.querySelector("textarea");
+  const text = textarea.value.trim();
 
-  if (!message) return;
+  if (!text && !selectedImage) return;
 
-  appendMessage("user", message);
+  let imageDataURL = null;
+
+  // ✅ Handle image FIRST (fixes async order)
+  if (selectedImage) {
+    imageDataURL = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(selectedImage);
+    });
+
+    appendMessage("user", text || "", imageDataURL);
+  } else {
+    appendMessage("user", text);
+  }
+
   textarea.value = "";
 
+  // ✅ Add loading message
+  const loadingDiv = document.createElement("div");
+  loadingDiv.className = "text-sm";
+  loadingDiv.innerHTML = `
+    <div class="p-3 rounded-lg bg-white/5 text-slate-400 italic">
+      AI is analyzing...
+    </div>
+  `;
+  document.getElementById("chat-history").appendChild(loadingDiv);
+
   try {
-    const res = await fetch(`${API}/chat`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        message: message,
-        user_id: localStorage.getItem("user_id")
-      })
-    });
+    let res;
+
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("text", text);
+      formData.append("user_id", localStorage.getItem("user_id"));
+
+      res = await fetch(`${API}/chat-image`, {
+        method: "POST",
+        body: formData
+      });
+
+      selectedImage = null; // ✅ reset safely AFTER use
+    } else {
+      res = await fetch(`${API}/chat`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          message: text,
+          user_id: localStorage.getItem("user_id")
+        })
+      });
+    }
 
     const data = await res.json();
 
-    appendMessage(
-      "ai",
-      data.response || data.english_response || "No response"
-    );
+    // ❌ remove loader
+    loadingDiv.remove();
+
+    appendMessage("assistant", data.response);
+
+    // 🔊 Optional TTS
+    // playTTS(data.response);
 
   } catch (err) {
-    appendMessage("ai", "⚠️ Backend not connected");
+    console.error(err);
+
+    loadingDiv.remove();
+
+    appendMessage("assistant", "⚠️ Server error");
   }
 }
 
-// Enter key handler
-document.addEventListener("keydown", function(e) {
-  const textarea = document.querySelector('#view-chatbot textarea');
+/* =========================
+   🔊 TEXT TO SPEECH
+========================= */
 
-  if (!textarea) return;
+async function playTTS(text) {
+  try {
+    const res = await fetch(`${API}/tts`, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: text
+    });
 
-  // only trigger if textarea is focused
-  if (document.activeElement === textarea) {
-    if (e.key === "Enter") {
-      e.preventDefault();   // 🚫 stop newline
-      sendMessage();        // ✅ send
-    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+
+    const audio = new Audio(url);
+    audio.play();
+
+  } catch (err) {
+    console.error("TTS error", err);
   }
-});
+}
+
+/* =========================
+   🎤 VOICE INPUT
+========================= */
+
+let recognition;
+let isRecording = false;
+
+function toggleVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert("Use Chrome for voice input");
+    return;
+  }
+
+  const textarea = document.querySelector("textarea");
+  const btn = document.getElementById("mic-btn");
+  const icon = btn.querySelector("iconify-icon");
+
+  if (isRecording) {
+    recognition.stop();
+    isRecording = false;
+    btn.style.backgroundColor = "";
+    icon.setAttribute("icon", "solar:microphone-2-linear");
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-IN";
+
+  let finalTranscript = "";
+
+  recognition.onresult = (event) => {
+    let interim = "";
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+
+      if (event.results[i].isFinal) {
+        finalTranscript += t + " ";
+      } else {
+        interim += t;
+      }
+    }
+
+    textarea.value = finalTranscript + interim;
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  };
+
+  recognition.onend = async () => {
+    isRecording = false;
+
+    btn.style.backgroundColor = "";
+    icon.setAttribute("icon", "solar:microphone-2-linear");
+
+    const text = textarea.value.trim();
+    if (!text) return;
+
+    try {
+      const res = await fetch(`${API}/stt-text`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ text })
+      });
+
+      const data = await res.json();
+
+      textarea.value = data.english || text;
+
+      appendMessage("user", `🎤 ${data.original || text}`);
+      if (data.transliterated) appendMessage("user", `🔤 ${data.transliterated}`);
+      if (data.english) appendMessage("user", `🌍 ${data.english}`);
+
+      sendMessage();
+
+    } catch {
+      appendMessage("user", `🎤 ${text}`);
+      sendMessage();
+    }
+  };
+
+  recognition.onerror = (e) => {
+    console.error("Speech error:", e.error);
+  };
+
+  recognition.start();
+  isRecording = true;
+
+  btn.style.backgroundColor = "#ef4444";
+  icon.setAttribute("icon", "solar:stop-circle-linear");
+}
+
+/* =========================
+   📈 CLINICAL DASHBOARD CHART
+========================= */
+let dashboardChartInstance = null;
+
+async function renderDashboardChart(metricType) {
+  const ctx = document.getElementById("dashboardChart");
+  if (!ctx) return;
+  
+  if (dashboardChartInstance) {
+    dashboardChartInstance.destroy();
+  }
+
+  // Chart defaults for dark theme
+  Chart.defaults.color = "#94a3b8";
+  Chart.defaults.font.family = "'Geist', 'Inter', sans-serif";
+
+  try {
+     const res = await fetch(`${API}/metrics/readings?patient_id=1`);
+     const dbData = await res.json();
+     
+     // Setup configurations based on real data
+     let dataConfig;
+     
+     if (metricType === "vitals") {
+        dataConfig = {
+          labels: dbData.labels.length > 0 ? dbData.labels : ["No Data Yet"],
+          datasets: [
+            {
+              label: "Heart Rate (bpm)",
+              data: dbData.heart_rate || [],
+              borderColor: "#3b82f6", // Blue
+              backgroundColor: "rgba(59, 130, 246, 0.1)",
+              tension: 0.4,
+              fill: true,
+              yAxisID: 'y'
+            },
+            {
+              label: "Systolic BP (mmHg)",
+              data: dbData.systolic_bp || [],
+              borderColor: "#0ea5e9", // Sky
+              borderDash: [5, 5],
+              tension: 0.4,
+              yAxisID: 'y1'
+            }
+          ]
+        };
+     } else {
+        dataConfig = {
+          labels: dbData.labels.length > 0 ? dbData.labels : ["No Data Yet"],
+          datasets: [
+            {
+              label: "Glucose (mg/dL)",
+              data: dbData.glucose || [],
+              borderColor: "#10b981", // Emerald
+              backgroundColor: "rgba(16, 185, 129, 0.1)",
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: function(context) {
+                var index = context.dataIndex;
+                var value = context.dataset.data[index];
+                return value > 120 ? '#ef4444' : '#10b981'; // alert red if high
+              },
+              pointRadius: function(context) {
+                var index = context.dataIndex;
+                var value = context.dataset.data[index];
+                return value > 120 ? 6 : 4; 
+              }
+            }
+          ]
+        };
+     }
+
+      dashboardChartInstance = new Chart(ctx, {
+        type: "line",
+        data: dataConfig,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { usePointStyle: true, boxWidth: 8 } },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              borderColor: 'rgba(255,255,255,0.1)',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: { grid: { color: "rgba(255,255,255,0.05)" } },
+            y: {
+              type: 'linear', display: true, position: 'left',
+              grid: { color: "rgba(255,255,255,0.05)" }
+            },
+            ...(metricType === "vitals" && {
+              y1: {
+                type: 'linear', display: true, position: 'right',
+                grid: { drawOnChartArea: false }
+              }
+            })
+          }
+        }
+      });
+      
+  } catch (err) {
+      console.error("Failed to load metrics graph", err);
+  }
+}
+
+function updateDashboardChart() {
+  const metricType = document.getElementById("chartMetricSelector").value;
+  renderDashboardChart(metricType);
+}
+
+async function loadDashboardStats() {
+  try {
+    const res = await fetch(`${API}/metrics/stats`);
+    const data = await res.json();
+    
+    document.getElementById("stat-patients").innerText = data.patients || 0;
+    document.getElementById("stat-interactions").innerText = data.interactions || 0;
+    document.getElementById("stat-time").innerText = (data.time_saved || 0) + 'm';
+    document.getElementById("stat-media").innerText = data.media_uploads || 0;
+    
+    const recentContainer = document.getElementById("recent-generations-list");
+    if (recentContainer) {
+      if (!data.recent_activity || data.recent_activity.length === 0) {
+        recentContainer.innerHTML = '<p class="text-xs text-slate-500 italic">No recent activity yet...</p>';
+      } else {
+        recentContainer.innerHTML = data.recent_activity.map(row => `
+          <div class="flex gap-3 items-start">
+            <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <iconify-icon icon="${row.icon}" class="text-emerald-400"></iconify-icon>
+            </div>
+            <div>
+              <p class="text-xs font-medium text-slate-200">${row.title}</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">Patient ID: ${row.patient_id} • ${row.time_ago}</p>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+  } catch (err) {
+    console.error("Failed to load global metrics", err);
+  }
+}
+
+async function loadPatientAnalysis() {
+  try {
+    const res = await fetch(`${API}/metrics/patient-summaries`);
+    const data = await res.json();
+    const tbody = document.getElementById("patient-analysis-tbody");
+    
+    if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="2" class="px-6 py-4 text-center text-slate-500 italic">No historical analysis yet. Start a chat!</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = data.map(item => {
+      const summaryEscaped = item.summary.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      const fullEncoded = encodeURIComponent(item.full_analysis || item.summary);
+      return `
+      <tr class="hover:bg-white/[0.02] transition cursor-pointer" onclick="toggleAnalysisText(this)">
+        <td class="px-6 py-4 text-slate-500 whitespace-nowrap align-top">${item.last_visit}</td>
+        <td class="px-6 py-4 text-slate-300 searchable-content">
+           <div class="analysis-text truncate max-w-4xl" data-summary="${summaryEscaped}" data-full="${fullEncoded}">
+              ${summaryEscaped}
+           </div>
+        </td>
+      </tr>
+    `}).join('');
+    
+  } catch (err) {
+      console.error("Failed to load patient analysis", err);
+  }
+}
+
+function toggleAnalysisText(row) {
+  const div = row.querySelector('.analysis-text');
+  if (div.classList.contains('truncate')) {
+    div.classList.remove('truncate', 'max-w-4xl');
+    const fullText = decodeURIComponent(div.getAttribute('data-full'));
+    div.innerHTML = fullText.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  } else {
+    div.classList.add('truncate', 'max-w-4xl');
+    div.innerText = div.getAttribute('data-summary');
+  }
+}
+
+function filterAnalysisTable() {
+  const query = document.getElementById('analysis-search').value.toLowerCase();
+  const rows = document.querySelectorAll('#patient-analysis-tbody tr');
+  rows.forEach(row => {
+    const textCell = row.querySelector('.searchable-content');
+    if (!textCell) return;
+    const fullText = decodeURIComponent(textCell.querySelector('.analysis-text').getAttribute('data-full')).toLowerCase();
+    if (fullText.includes(query)) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+
+// Intercept routing to render chart when viewing dashboard
+const originalSwitchAppView = switchAppView;
+window.switchAppView = function(viewName) {
+  originalSwitchAppView(viewName);
+  if (viewName === 'dashboard') {
+    // Slight delay to ensure DOM is visible for canvas size
+    setTimeout(() => {
+        updateDashboardChart();
+        loadDashboardStats();
+    }, 50);
+  } else if (viewName === 'patients') {
+    loadPatientAnalysis();
+  }
+};
+
+</script>
 </body>
 </html>

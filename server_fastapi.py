@@ -1,15 +1,20 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
-import sqlite3
-import json
+from fastapi.responses import FileResponse
+from sqlalchemy.orm import Session
 
-from ollama_client import MedGemmaChat
+import models
+from database import get_db, init_db
+from ollama_client import generate_from_ollama
+from routers.auth import router as auth_router
+from routers.chat import router as chat_router
+from routers.metrics import router as metrics_router
+from routers.patients import router as patients_router
+from vertex_client import analyze_image, generate_from_vertex
+
 
 app = FastAPI()
 
-# CORS (important for HTML frontend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,136 +23,119 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-bot = MedGemmaChat()
 
-# =========================
-# REQUEST MODEL
-# =========================
-class ChatRequest(BaseModel):
-    message: str
-    user_id: int | None = None
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 
-# =========================
-# 🔥 STREAMING GENERATOR
-# =========================
-def stream_generator(message):
-    bot.messages.append({
-        "role": "user",
-        "content": message
-    })
-
-    response = bot.url
-
-    import requests
-
-    r = requests.post(
-        response,
-        json={
-            "model": bot.model,
-            "messages": bot.messages,
-            "stream": True
-        },
-        stream=True
-    )
-
-    full_reply = ""
-
-    for line in r.iter_lines():
-        if line:
-            try:
-                chunk = json.loads(line.decode("utf-8"))
-                content = chunk.get("message", {}).get("content", "")
-                full_reply += content
-                yield content   # 🔥 STREAM TO FRONTEND
-            except:
-                pass
-
-    bot.messages.append({
-        "role": "assistant",
-        "content": full_reply
-    })
+app.include_router(auth_router)
+app.include_router(chat_router)
+app.include_router(metrics_router)
+app.include_router(patients_router)
 
 
-# =========================
-# 🔥 STREAM ENDPOINT
-# =========================
-@app.post("/chat-stream")
-def chat_stream(data: ChatRequest):
-    return StreamingResponse(
-        stream_generator(data.message),
-        media_type="text/plain"
-    )
+@app.get("/")
+def home():
+    return FileResponse("index.html")
 
 
-# =========================
-# NORMAL CHAT (fallback)
-# =========================
-@app.post("/chat")
-def chat(data: ChatRequest):
-    result = bot.send_text(data.message)
-    return {"response": result["response"]}
-from fastapi import Body
-import sqlite3
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
-# =========================
-# SIGNUP
-# =========================
-@app.post("/signup")
-def signup(data: dict = Body(...)):
-    email = data.get("email")
-    password = data.get("password")
 
-    if not email or not password:
-        return {"status": "fail", "error": "Missing fields"}
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
+@app.get("/ai")
+def ai(prompt: str, db: Session = Depends(get_db)):
     try:
-        c.execute(
-            "INSERT INTO users (email, password) VALUES (?, ?)",
-            (email, password)
+        response = generate_from_ollama(prompt)
+        db.add(
+            models.ConsultationChat(
+                patient_id=1,
+                message=prompt,
+                response=response,
+            )
         )
-        conn.commit()
+        db.commit()
+        return {"response": response}
+    except Exception as e:
+        print("Ollama error:", e)
+        try:
+            fallback = generate_from_vertex(prompt)
+            return {"response": fallback}
+        except Exception as vertex_error:
+            raise HTTPException(
+                status_code=503,
+                detail=f"AI services unavailable: {vertex_error}",
+            ) from vertex_error
 
-        user_id = c.lastrowid
+
+@app.post("/analyze-image")
+async def analyze_image_api(
+    file: UploadFile = File(...),
+    text: str = Form(default=""),
+    user_id: int = Form(default=0),
+    patient_id: int = Form(default=1),
+    db: Session = Depends(get_db),
+):
+    try:
+        image_bytes = await file.read()
+        mime_type = file.content_type or "image/jpeg"
+
+        try:
+            vertex_result = analyze_image(image_bytes, mime_type=mime_type)
+        except Exception as vertex_error:
+            raise HTTPException(
+                status_code=503,
+                detail=f"Image analysis unavailable: {vertex_error}",
+            ) from vertex_error
+
+        prompt = f"""
+You are an advanced medical AI assistant.
+
+Based on the following image analysis:
+{vertex_result}
+
+Provide structured output EXACTLY in this format:
+
+1. Observations:
+[Detailed clinical findings]
+
+2. Possible Conditions:
+[Medical possibilities]
+
+3. Risk Level:
+(Low / Moderate / High / Critical)
+
+4. Recommended Action:
+[Next steps, no diagnosis]
+"""
+
+        try:
+            final_response = generate_from_ollama(prompt)
+        except Exception as e:
+            print("Ollama failed, using Vertex fallback:", e)
+            try:
+                final_response = generate_from_vertex(prompt)
+            except Exception:
+                final_response = vertex_result
+
+        if user_id:
+            db.add(
+                models.ConsultationChat(
+                    patient_id=patient_id,
+                    message="[IMAGE] " + (text or ""),
+                    response=final_response,
+                )
+            )
+            db.commit()
 
         return {
-            "status": "success",
-            "user_id": user_id
+            "vertex_analysis": vertex_result,
+            "final_response": final_response,
         }
-
-    except sqlite3.IntegrityError:
-        return {"status": "fail", "error": "User already exists"}
-
-    finally:
-        conn.close()
-
-
-# =========================
-# LOGIN
-# =========================
-@app.post("/login")
-def login(data: dict = Body(...)):
-    email = data.get("email")
-    password = data.get("password")
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    c.execute(
-        "SELECT id FROM users WHERE email=? AND password=?",
-        (email, password)
-    )
-
-    user = c.fetchone()
-    conn.close()
-
-    if user:
-        return {
-            "status": "success",
-            "user_id": user[0]
-        }
-
-    return {"status": "fail", "error": "Invalid credentials"}
+    except Exception as e:
+        print("Image processing error:", e)
+        if isinstance(e, HTTPException):
+            raise
+        raise HTTPException(status_code=500, detail=str(e)) from e

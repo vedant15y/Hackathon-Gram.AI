@@ -1,21 +1,34 @@
-from langdetect import detect
+import html
+import os
+
 from google.cloud import translate_v2 as translate
 from google.oauth2 import service_account
 from indic_transliteration import sanscript
 from indic_transliteration.sanscript import transliterate
+from langdetect import detect
 
-# Load credentials
-credentials = service_account.Credentials.from_service_account_file(
-    "translation_key.json"
-)
 
-translate_client = translate.Client(credentials=credentials)
+def _build_translate_client():
+    key_path = os.getenv(
+        "GOOGLE_APPLICATION_CREDENTIALS",
+        "C:/Users/Vrushali Gondhali/Desktop/keys/gcloud-key.json",
+    )
+    try:
+        if os.path.exists(key_path):
+            credentials = service_account.Credentials.from_service_account_file(key_path)
+            return translate.Client(credentials=credentials)
+        return translate.Client()
+    except Exception:
+        return None
+
+
+translate_client = _build_translate_client()
 
 
 def detect_language(text: str) -> str:
     try:
         return detect(text)
-    except:
+    except Exception:
         return "unknown"
 
 
@@ -24,29 +37,32 @@ def transliterate_text(text: str, lang: str) -> str:
         if lang in ["mr", "hi"]:
             return transliterate(text, sanscript.DEVANAGARI, sanscript.ITRANS)
         return text
-    except:
+    except Exception:
         return text
 
 
 def translate_to_english(text: str) -> str:
     try:
+        if translate_client is None:
+            return text
         result = translate_client.translate(text, target_language="en")
-        return result["translatedText"]
-    except:
+        return html.unescape(result["translatedText"])
+    except Exception:
         return text
 
 
 def translate_back(text: str, target_lang: str) -> str:
     try:
+        if translate_client is None:
+            return text
         result = translate_client.translate(text, target_language=target_lang)
-        return result["translatedText"]
-    except:
+        return html.unescape(result["translatedText"])
+    except Exception:
         return text
 
 
 def process_input(text: str):
     lang = detect_language(text)
-
     transliterated = transliterate_text(text, lang)
 
     if lang != "en":
@@ -57,11 +73,9 @@ def process_input(text: str):
     return {
         "lang": lang,
         "transliterated": transliterated,
-        "english": english_text
+        "english": english_text,
     }
 
 
 def process_output(response_text: str, lang: str):
-    if lang not in ["en", "unknown"]:
-        return translate_back(response_text, lang)
     return response_text
