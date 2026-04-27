@@ -45,11 +45,19 @@ class SmokeTests(unittest.TestCase):
 
         signup = self.client.post("/signup", json={"email": email, "password": password})
         login = self.client.post("/login", json={"email": email, "password": password})
+        session_check = self.client.post(
+            "/session",
+            json={"token": login.json()["session_token"]},
+        )
 
         self.assertEqual(signup.status_code, 200)
         self.assertEqual(signup.json()["status"], "success")
+        self.assertIn("session_token", signup.json())
         self.assertEqual(login.status_code, 200)
         self.assertEqual(login.json()["status"], "success")
+        self.assertIn("session_token", login.json())
+        self.assertEqual(session_check.status_code, 200)
+        self.assertEqual(session_check.json()["status"], "success")
 
     def test_stt_text(self):
         response = self.client.post("/stt-text", json={"text": "Hello doctor"})
@@ -66,6 +74,19 @@ class SmokeTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["response"], "ok reply")
+
+    def test_chat_route_falls_back_to_vertex(self):
+        with (
+            patch("routers.chat.bot.send_text", side_effect=RuntimeError("vm timeout")),
+            patch("routers.chat.generate_from_vertex", return_value="vertex fallback reply"),
+        ):
+            response = self.client.post(
+                "/chat",
+                json={"message": "hello", "user_id": 1, "patient_id": 1},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["response"], "vertex fallback reply")
 
     def test_metrics_stats(self):
         response = self.client.get("/metrics/stats")
@@ -101,6 +122,23 @@ class SmokeTests(unittest.TestCase):
         payload = response.json()
         self.assertEqual(payload["vertex_analysis"], "safe image summary")
         self.assertEqual(payload["final_response"], "structured response")
+
+    def test_analyze_image_falls_back_to_vertex_when_ollama_down(self):
+        with (
+            patch("server_fastapi.analyze_image", return_value="safe image summary"),
+            patch("server_fastapi.generate_from_ollama", side_effect=RuntimeError("vm timeout")),
+            patch("server_fastapi.generate_from_vertex", return_value="vertex medical fallback"),
+        ):
+            response = self.client.post(
+                "/analyze-image",
+                files={"file": ("scan.jpg", b"fake-image", "image/jpeg")},
+                data={"text": "check this", "user_id": "1", "patient_id": "1"},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload["vertex_analysis"], "safe image summary")
+        self.assertEqual(payload["final_response"], "vertex medical fallback")
 
 
 if __name__ == "__main__":

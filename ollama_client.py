@@ -5,10 +5,9 @@ import requests
 
 from language_utils import process_input, process_output
 
-
 class MedGemmaChat:
     def __init__(self, model="MedAIBase/MedGemma1.5:4b"):
-        self.url = self._resolve_url(os.getenv("OLLAMA_URL", "http://35.200.232.219:11434"))
+        self.url = self._resolve_url(os.getenv("OLLAMA_URL", "http://34.47.205.10:11434"))
         self.model = model
         self._init_messages()
 
@@ -71,24 +70,26 @@ class MedGemmaChat:
             )
             response.raise_for_status()
             full_reply = response.json()["message"]["content"]
+        except requests.RequestException as exc:
+            raise RuntimeError(
+                f"External Ollama VM unavailable at {self.url}. {exc}"
+            ) from exc
 
-            self.messages.append(
-                {
-                    "role": "assistant",
-                    "content": full_reply,
-                }
-            )
-
-            final_reply = process_output(full_reply, lang)
-
-            return {
-                "detected_language": lang,
-                "transliteration": data["transliterated"],
-                "english_response": full_reply,
-                "response": final_reply,
+        self.messages.append(
+            {
+                "role": "assistant",
+                "content": full_reply,
             }
-        except Exception as e:
-            return {"response": f"Error: {str(e)}"}
+        )
+
+        final_reply = process_output(full_reply, lang)
+
+        return {
+            "detected_language": lang,
+            "transliteration": data["transliterated"],
+            "english_response": full_reply,
+            "response": final_reply,
+        }
 
     def send_image(self, image_path, prompt="Analyze this medical image"):
         with open(image_path, "rb") as f:

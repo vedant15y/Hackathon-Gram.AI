@@ -15,10 +15,42 @@ from language_utils import process_input
 from ollama_client import MedGemmaChat
 from speech_utils import transcribe_audio
 from text_utils import text_to_speech
+from vertex_client import generate_from_vertex
 
 
 router = APIRouter()
 bot = MedGemmaChat()
+
+
+def fallback_text_response(message: str, vm_error: Exception | str):
+    prompt = f"""
+You are an advanced medical AI assistant.
+
+The primary Ollama medical model is temporarily unavailable.
+Still answer the user in this exact structure:
+
+1. Observations:
+[Detailed clinical findings]
+
+2. Possible Conditions:
+[Medical possibilities]
+
+3. Risk Level:
+(Low / Moderate / High / Critical)
+
+4. Recommended Action:
+[Next steps, no diagnosis]
+
+User Message:
+{message}
+"""
+    try:
+        return generate_from_vertex(prompt)
+    except Exception:
+        return (
+            "The external medical model server is not reachable right now. "
+            "Please start Ollama on the VM at 34.100.237.32:11434 and try again."
+        )
 
 
 def intercept_and_save_metrics(response: str, patient_id: int, db: Session):
@@ -71,7 +103,8 @@ def chat(data: dict, db: Session = Depends(get_db)):
         response = result.get("response", "")
         response = intercept_and_save_metrics(response, patient_id, db)
     except Exception as e:
-        response = f"LLM not available {str(e)}"
+        response = fallback_text_response(augmented_message, e)
+        response = intercept_and_save_metrics(response, patient_id, db)
 
     if user_id:
         new_chat = models.ConsultationChat(
@@ -202,8 +235,9 @@ async def voice_chat(file: UploadFile = File(...), db: Session = Depends(get_db)
             result = bot.send_text(text)
             response = result["response"]
             response = intercept_and_save_metrics(response, 1, db)
-        except Exception:
-            response = "LLM not available"
+        except Exception as exc:
+            response = fallback_text_response(text, exc)
+            response = intercept_and_save_metrics(response, 1, db)
 
         tts_path = text_to_speech(response, "voice.mp3")
         with open(tts_path, "rb") as f:

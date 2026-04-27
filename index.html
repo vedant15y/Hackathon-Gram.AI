@@ -76,6 +76,87 @@
     border-width: 0 1.5px 1.5px 0;
     transform: rotate(45deg);
   }
+
+  .accordion-panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-8px);
+    transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.35s ease;
+  }
+
+  .accordion-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .chat-shell {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .chat-thread {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .message-row {
+    display: flex;
+    width: 100%;
+  }
+
+  .user-row {
+    justify-content: flex-end;
+  }
+
+  .assistant-row {
+    justify-content: flex-start;
+  }
+
+  .message-column-user {
+    width: min(100%, 29rem);
+    margin-left: auto;
+  }
+
+  .message-column-assistant {
+    width: min(100%, 40rem);
+    margin-right: auto;
+  }
+
+  .message-bubble-user {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px 24px 10px 24px;
+    color: #f8fafc;
+  }
+
+  .message-bubble-assistant {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 24px 24px 24px 10px;
+    color: #e2e8f0;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+  }
+
+  .problem-grid-card {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.65));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 50px rgba(15, 23, 42, 0.26);
+  }
+
+  .problem-stat-card {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.56));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(16px);
+  }
+
+  .chart-surface {
+    position: relative;
+    min-height: 350px;
+  }
 </style>
 </head>
 
@@ -234,6 +315,50 @@
           </button>
         </div>
 
+        <!-- Above-the-fold product stats -->
+        <div class="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-4 max-w-5xl mx-auto animate-fade-in delay-300">
+          <div class="problem-stat-card rounded-[24px] p-4 text-left">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-2xl font-semibold text-white tracking-tight">24/7</p>
+                <p class="text-sm text-slate-200 mt-1">Always-on intake</p>
+              </div>
+              <iconify-icon icon="solar:clock-circle-linear" class="text-2xl text-blue-300"></iconify-icon>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Start triage at any hour, even before a specialist is available.</p>
+          </div>
+          <div class="problem-stat-card rounded-[24px] p-4 text-left">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-2xl font-semibold text-white tracking-tight">3</p>
+                <p class="text-sm text-slate-200 mt-1">Input modes</p>
+              </div>
+              <iconify-icon icon="solar:chat-round-like-linear" class="text-2xl text-emerald-300"></iconify-icon>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Text, voice notes, and medical images move through one workflow.</p>
+          </div>
+          <div class="problem-stat-card rounded-[24px] p-4 text-left">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-2xl font-semibold text-white tracking-tight">2-Step</p>
+                <p class="text-sm text-slate-200 mt-1">AI review path</p>
+              </div>
+              <iconify-icon icon="solar:layers-linear" class="text-2xl text-cyan-300"></iconify-icon>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Vertex AI reviews the image first, then the medical model synthesizes guidance.</p>
+          </div>
+          <div class="problem-stat-card rounded-[24px] p-4 text-left">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-2xl font-semibold text-white tracking-tight">1</p>
+                <p class="text-sm text-slate-200 mt-1">Unified workspace</p>
+              </div>
+              <iconify-icon icon="solar:widget-5-linear" class="text-2xl text-teal-300"></iconify-icon>
+            </div>
+            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Consultation, metrics, and patient history stay centered in a single view.</p>
+          </div>
+        </div>
+
         <!-- App Preview Image -->
         <div class="mt-20 relative mx-auto max-w-5xl animate-fade-in delay-300">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
@@ -247,6 +372,80 @@
              </div>
           </div>
         </div>
+
+        <section class="mt-16 text-left">
+          <div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr] items-stretch">
+            <div class="problem-grid-card rounded-[30px] p-8 md:p-10 relative overflow-hidden animate-fade-in delay-300">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.12),transparent_40%)]"></div>
+              <div class="relative">
+                <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-300 ring-1 ring-emerald-500/20 mb-6">
+                  <iconify-icon icon="solar:map-point-wave-linear"></iconify-icon>
+                  Rural Care Problem Statement
+                </div>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-white max-w-3xl leading-tight">
+                  Bridging the healthcare gap between rural communities and advanced AI diagnostics.
+                </h2>
+                <p class="mt-5 text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl">
+                  Millions of patients outside major cities face delayed diagnosis, long travel times, and limited access to specialists. Gram.AI gives frontline care teams an AI-assisted medical workspace to capture symptoms, review images, and surface triage-ready insights in minutes.
+                </p>
+                <div class="grid sm:grid-cols-3 gap-3 mt-8">
+                  <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                    <div class="w-10 h-10 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-300 mb-3">
+                      <iconify-icon icon="solar:route-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-medium text-white">Travel Burden</p>
+                    <p class="text-xs text-slate-400 mt-1">Patients often travel hours for a first opinion that could begin digitally.</p>
+                  </div>
+                  <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-300 mb-3">
+                      <iconify-icon icon="solar:stethoscope-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-medium text-white">Specialist Shortage</p>
+                    <p class="text-xs text-slate-400 mt-1">Rural clinicians need decision support when advanced expertise is far away.</p>
+                  </div>
+                  <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                    <div class="w-10 h-10 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-300 mb-3">
+                      <iconify-icon icon="solar:bolt-circle-linear" class="text-xl"></iconify-icon>
+                    </div>
+                    <p class="text-sm font-medium text-white">Fast AI Triage</p>
+                    <p class="text-xs text-slate-400 mt-1">Image understanding, translated chat, and medical synthesis shorten time to action.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid gap-4 animate-fade-in delay-300">
+              <div class="problem-grid-card rounded-[28px] p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-300">
+                    <iconify-icon icon="solar:hospital-linear" class="text-2xl"></iconify-icon>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-white">Clinical Intake in One Flow</p>
+                    <p class="text-xs text-slate-400">Symptoms, scans, and vitals move through one secure workspace.</p>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  Built for telemedicine desks, mobile clinics, and community health programs that need a calm interface and faster first-pass reasoning.
+                </p>
+              </div>
+              <div class="problem-grid-card rounded-[28px] p-6">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-300">
+                    <iconify-icon icon="solar:shield-check-linear" class="text-2xl"></iconify-icon>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-white">Human-in-the-Loop Support</p>
+                    <p class="text-xs text-slate-400">AI accelerates review while clinicians stay in charge of decisions.</p>
+                  </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  The platform is meant to reduce screening friction, not replace care teams, so every insight still supports a clinician-led workflow.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </section>
     </main>
@@ -462,7 +661,7 @@
       <div id="view-chatbot" class="flex-1 flex h-full overflow-hidden relative">
         
         <!-- Collapsible Left Panel for Image Previews -->
-        <div id="chat-image-panel" class="hidden md:flex w-0 border-r border-white/5 bg-slate-900/40 flex-col transition-all duration-300 overflow-hidden shrink-0">
+        <div id="chat-image-panel-old" class="hidden">
           <div class="h-14 p-4 border-b border-white/5 flex justify-between items-center shrink-0 w-72">
             <span class="text-sm font-medium text-white flex items-center gap-2">
               <iconify-icon icon="solar:gallery-linear" class="text-blue-400"></iconify-icon>
@@ -474,10 +673,10 @@
           </div>
           <div class="p-4 flex-1 overflow-y-auto custom-scrollbar w-72 space-y-4">
             <div>
-             <div id="image-preview-box"
+             <div id="legacy-image-preview-box"
                   class="relative rounded-xl overflow-hidden border border-white/10 bg-black/50 aspect-square flex items-center justify-center">
               <!-- ❌ Close Button -->
-              <button id="close-preview-btn"
+              <button id="legacy-close-preview-btn"
                       class="hidden absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white text-xs px-2 py-1 rounded-md z-10">
                 ✕
               </button>
@@ -490,64 +689,134 @@
         <!-- Main Chat Area -->
         <div class="flex-1 flex flex-col h-full overflow-hidden relative">
           <!-- Header -->
-          <div class="h-14 border-b border-white/5 flex items-center justify-between px-6 shrink-0 bg-slate-950/50 backdrop-blur-md">
-            <div class="flex items-center gap-2">
-              <span class="text-sm font-medium text-white">New Consultation</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">MedGemma v2</span>
+          <div class="h-14 border-b border-white/5 shrink-0 bg-slate-950/50 backdrop-blur-md px-4 md:px-6">
+            <div class="chat-shell h-full flex items-center justify-between gap-4">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-white">New Consultation</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">MedGemma v2</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button onclick="toggleImagePanel()" id="panel-toggle-btn" class="inline-flex items-center gap-2 text-slate-300 hover:text-white text-sm transition bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                  <iconify-icon icon="solar:gallery-wide-linear" class="text-base text-blue-300"></iconify-icon>
+                  Image Analysis
+                  <iconify-icon id="image-panel-chevron" icon="solar:alt-arrow-down-linear" class="text-base transition-transform duration-300"></iconify-icon>
+                </button>
+                <button onclick="clearChat()" class="text-slate-400 hover:text-white text-sm flex items-center gap-1 transition">
+                  <iconify-icon icon="solar:trash-bin-trash-linear"></iconify-icon>
+                  Clear
+                </button>
+              </div>
             </div>
-            <div class="flex items-center gap-3">
-              <button onclick="toggleImagePanel(true)" id="panel-toggle-btn" class="hidden text-blue-400 hover:text-blue-300 text-sm items-center gap-1 transition bg-blue-500/10 px-2 py-1 rounded">
-                <iconify-icon icon="solar:sidebar-minimalistic-linear"></iconify-icon>
-                View Media
-              </button>
-              <button class="text-slate-400 hover:text-white text-sm flex items-center gap-1 transition">
-                <iconify-icon icon="solar:trash-bin-trash-linear"></iconify-icon>
-                Clear
-              </button>
+          </div>
+          <div class="px-4 md:px-6 pt-4 shrink-0">
+            <div class="chat-shell">
+              <section class="rounded-[28px] border border-white/10 bg-slate-900/55 backdrop-blur-xl overflow-hidden shadow-xl">
+                <button onclick="toggleImagePanel()" class="w-full flex items-center justify-between gap-4 px-5 py-4 text-left">
+                  <div>
+                    <p class="text-sm font-medium text-white">Image Analysis</p>
+                    <p class="text-xs text-slate-400 mt-1">Upload an image for Vertex AI analysis, then forward that summary into the medical reasoning model.</p>
+                  </div>
+                  <span class="text-xs text-blue-300 rounded-full px-3 py-1 bg-blue-500/10 border border-blue-500/20">Collapsed by default</span>
+                </button>
+
+                <div id="chat-image-panel" class="accordion-panel">
+                  <div class="border-t border-white/10 p-5 md:p-6">
+                    <div class="grid gap-5 lg:grid-cols-[260px_1fr]">
+                      <div>
+                        <div id="image-preview-box" class="relative rounded-2xl overflow-hidden border border-dashed border-white/10 bg-black/30 aspect-square flex items-center justify-center text-center p-6">
+                          <div id="image-preview-placeholder" class="space-y-3">
+                            <div class="w-14 h-14 rounded-2xl mx-auto bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">
+                              <iconify-icon icon="solar:gallery-add-linear" class="text-2xl"></iconify-icon>
+                            </div>
+                            <p class="text-sm text-slate-300">No image selected yet</p>
+                            <p class="text-xs text-slate-500">Upload a medical image to trigger the Vertex AI review pipeline.</p>
+                          </div>
+                        </div>
+                        <button onclick="openImagePicker()" class="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-white text-slate-950 px-4 py-3 text-sm font-medium hover:bg-slate-200 transition">
+                          <iconify-icon icon="solar:upload-linear" class="text-lg"></iconify-icon>
+                          Upload Image
+                        </button>
+                      </div>
+
+                      <div class="space-y-4">
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                          <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-2">Pipeline Status</p>
+                          <p id="image-analysis-status" class="text-sm text-slate-300 leading-relaxed">Upload an image to send it to Vertex AI. The model response will appear here before the VM creates the final medical analysis.</p>
+                        </div>
+
+                        <div class="grid gap-4 md:grid-cols-2">
+                          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 min-h-[180px]">
+                            <div class="flex items-center gap-2 mb-3">
+                              <iconify-icon icon="solar:cloud-linear" class="text-indigo-300 text-lg"></iconify-icon>
+                              <h4 class="text-sm font-medium text-white">Vertex AI Summary</h4>
+                            </div>
+                            <div id="vertex-analysis-output" class="text-sm text-slate-300 leading-relaxed">No image analysis yet.</div>
+                          </div>
+
+                          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 min-h-[180px]">
+                            <div class="flex items-center gap-2 mb-3">
+                              <iconify-icon icon="solar:stethoscope-linear" class="text-emerald-300 text-lg"></iconify-icon>
+                              <h4 class="text-sm font-medium text-white">Medical Synthesis</h4>
+                            </div>
+                            <div id="image-analysis-output" class="text-sm text-slate-300 leading-relaxed">The final medical synthesis will appear here after the VM receives the Vertex summary.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
           <!-- Chat History -->
-          <div id="chat-history" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+          <div id="chat-history" class="flex-1 overflow-y-auto custom-scrollbar px-4 md:px-6 py-6">
+            <div id="chat-thread" class="chat-thread space-y-5">
+              <div id="chat-empty-state" class="message-column-assistant rounded-[28px] border border-white/10 bg-white/[0.03] p-6 md:p-8 text-left">
+                <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-3">Care Workspace</p>
+                <h3 class="text-xl font-semibold text-white tracking-tight">Start with symptoms, a voice note, or an uploaded image.</h3>
+                <p class="text-sm text-slate-400 mt-3 leading-relaxed">The centered chat thread keeps the consultation easy to read, while the Image Analysis drawer stays tucked away until you need image review.</p>
+              </div>
+            </div>
           </div>     
 
           <!-- Input Area -->
           <div class="p-4 md:p-6 pt-0 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950 to-transparent">
-            <div class="max-w-4xl mx-auto relative group">
-              <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-              <div class="relative bg-slate-900 border border-white/10 rounded-2xl flex flex-col p-2 shadow-xl">
+            <div class="chat-shell relative group">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-[28px] blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+              <div class="relative bg-slate-900 border border-white/10 rounded-[28px] flex flex-col p-3 shadow-xl">
                 
                 <!-- Multi-line Textarea -->
-                <textarea rows="1" placeholder="Describe symptoms, dictate notes, or ask for analysis..." class="w-full bg-transparent text-sm text-white placeholder-slate-500 resize-none outline-none px-3 pt-2 pb-10 custom-scrollbar min-h-[52px] max-h-32" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
+                <input type="file" id="image-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
+                <textarea id="chat-input" rows="1" placeholder="Describe symptoms, dictate notes, or ask for analysis..." class="w-full bg-transparent text-sm text-white placeholder-slate-500 resize-none outline-none px-3 pt-3 pb-12 custom-scrollbar min-h-[64px] max-h-40" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"></textarea>
                 
                 <!-- Bottom Controls -->
-                <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-3">
                   <div class="flex items-center gap-1">
-                    <!-- Image Upload -->
-                    <input type="file" id="image-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)" />
                     <button 
-                      class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger"
+                      class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger"
                       title="Upload Media"
-                      onclick="document.getElementById('image-input').click()"
+                      onclick="openImagePicker()"
                       >
                         <iconify-icon icon="solar:gallery-add-linear" class="text-lg"></iconify-icon>
                     </button>
                     <!-- Microphone S2T -->
-                    <button id="mic-btn" onclick="toggleVoice()" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Speech-to-Text">
+                    <button id="mic-btn" onclick="toggleVoice()" class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Speech-to-Text">
                       <iconify-icon icon="solar:microphone-2-linear" class="text-lg"></iconify-icon>
                     </button>
                     <!-- Translation (TTS) -->
-                    <button onclick="if(window.latestAIResponseText) playTTS(window.latestAIResponseText)" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Read Aloud (Translated)">
+                    <button onclick="playLatestTTS()" class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Read Aloud (Latest Response)">
                       <iconify-icon icon="solar:volume-loud-linear" class="text-lg"></iconify-icon>
                     </button>
                   </div>
                   
                   <!-- Send Button -->
-                  <button onclick="sendMessage()" class="w-8 h-8 rounded-lg bg-white text-slate-950 flex items-center justify-center hover:bg-slate-200 transition">
+                  <button onclick="sendMessage()" class="inline-flex items-center gap-2 rounded-2xl bg-white text-slate-950 px-4 py-2 text-sm font-medium hover:bg-slate-200 transition">
+                    Send
                     <iconify-icon icon="solar:send-linear" class="text-lg"></iconify-icon>
                   </button>
                 </div>
               </div>
-              <div class="text-center mt-2 flex justify-between items-center px-2">
+              <div class="mt-2 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 px-2">
                 <span class="text-[10px] text-slate-500 font-light">Gram.AI can make mistakes. Verify critical medical information.</span>
                 <span class="text-[10px] text-slate-500 font-light flex items-center gap-1"><iconify-icon icon="solar:lock-password-linear"></iconify-icon> Encrypted Session</span>
               </div>
@@ -616,7 +885,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <!-- Clinical Analytics Chart -->
-            <div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col relative w-full h-[350px]">
+            <div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col relative w-full chart-surface">
               <div class="flex justify-between items-center mb-4">
                 <h3 class="text-sm font-medium text-white">Patient Vitals Trend <span class="text-xs text-emerald-400 ml-2">Stable</span></h3>
                 <select id="chartMetricSelector" onchange="updateDashboardChart()" class="bg-slate-900 border border-white/10 rounded-md text-xs text-white px-2 py-1 outline-none">
@@ -624,7 +893,7 @@
                   <option value="glucose">Glucose Levels</option>
                 </select>
               </div>
-              <div class="flex-1 relative w-full h-full pb-2">
+              <div class="flex-1 relative w-full h-full pb-2 chart-surface">
                 <canvas id="dashboardChart"></canvas>
               </div>
             </div>
@@ -937,6 +1206,7 @@ function logOut() {
 ========================= */
 
 let selectedImage = null;
+let selectedImagePreviewUrl = null;
 
 function handleImageUpload(event) {
   selectedImage = event.target.files[0];
@@ -1187,8 +1457,43 @@ async function sendMessage() {
    🔊 TEXT TO SPEECH
 ========================= */
 
+let activeTTSAudio = null;
+let activeTTSUrl = null;
+
+function stopActiveTTS() {
+  if (activeTTSAudio) {
+    activeTTSAudio.pause();
+    activeTTSAudio.currentTime = 0;
+    activeTTSAudio = null;
+  }
+  if (activeTTSUrl) {
+    URL.revokeObjectURL(activeTTSUrl);
+    activeTTSUrl = null;
+  }
+}
+
+function getLatestAssistantResponseText() {
+  const assistantMessages = document.querySelectorAll("#chat-thread .assistant-row .text-content");
+  const lastAssistant = assistantMessages[assistantMessages.length - 1];
+  const text = lastAssistant ? lastAssistant.textContent.trim() : String(window.latestAIResponseText || "").trim();
+
+  if (!text || text === "Analyzing..." || text === "Sending image to Vertex AI...") {
+    return "";
+  }
+
+  return text;
+}
+
+function playLatestTTS() {
+  const latestText = getLatestAssistantResponseText();
+  if (!latestText) return;
+  playTTS(latestText);
+}
+
 async function playTTS(text) {
   try {
+    stopActiveTTS();
+
     const res = await fetch(`${API}/tts`, {
       method: "POST",
       headers: { "Content-Type": "text/plain" },
@@ -1197,12 +1502,17 @@ async function playTTS(text) {
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
+    activeTTSUrl = url;
 
     const audio = new Audio(url);
-    audio.play();
+    activeTTSAudio = audio;
+    audio.onended = () => stopActiveTTS();
+    audio.onerror = () => stopActiveTTS();
+    await audio.play();
 
   } catch (err) {
     console.error("TTS error", err);
+    stopActiveTTS();
   }
 }
 
@@ -1534,6 +1844,594 @@ window.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("auth-modal");
     if (modal) modal.classList.add("hidden-view");
   }
+});
+
+/* =========================
+   MODERN UI OVERRIDES
+========================= */
+
+const SESSION_STORAGE_KEY = "gramai_session";
+const REMEMBERED_EMAIL_KEY = "remembered_email";
+let dashboardRefreshTimer = null;
+window.latestAIResponseText = "";
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function stripMetricJsonBlock(text) {
+  return String(text ?? "").replace(/```json[\s\S]*?```/gi, "").trim();
+}
+
+function formatRichText(text) {
+  return escapeHtml(stripMetricJsonBlock(text))
+    .replace(/\n/g, "<br>")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+}
+
+function readStoredSession() {
+  const stored = localStorage.getItem(SESSION_STORAGE_KEY) || sessionStorage.getItem(SESSION_STORAGE_KEY);
+  if (!stored) return null;
+  try {
+    return JSON.parse(stored);
+  } catch (err) {
+    console.error("Invalid stored session", err);
+    return null;
+  }
+}
+
+function syncLegacySessionFields(session) {
+  const email = session?.email || "";
+  const userId = session?.user_id != null ? String(session.user_id) : "";
+
+  if (email) {
+    localStorage.setItem("email", email);
+  } else {
+    localStorage.removeItem("email");
+  }
+
+  if (userId) {
+    localStorage.setItem("user_id", userId);
+  } else {
+    localStorage.removeItem("user_id");
+  }
+
+  if (email || userId) {
+    localStorage.setItem("user", JSON.stringify({ email, user_id: userId }));
+  } else {
+    localStorage.removeItem("user");
+  }
+}
+
+function persistSession(session, rememberMe) {
+  const payload = JSON.stringify(session);
+  if (rememberMe) {
+    localStorage.setItem(SESSION_STORAGE_KEY, payload);
+    localStorage.setItem(REMEMBERED_EMAIL_KEY, session.email);
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+  } else {
+    sessionStorage.setItem(SESSION_STORAGE_KEY, payload);
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(REMEMBERED_EMAIL_KEY);
+  }
+  syncLegacySessionFields(session);
+}
+
+function clearStoredSession() {
+  localStorage.removeItem(SESSION_STORAGE_KEY);
+  sessionStorage.removeItem(SESSION_STORAGE_KEY);
+  syncLegacySessionFields(null);
+}
+
+function setProfileEmail(email) {
+  const profileDisplay = document.getElementById("profile-email");
+  if (profileDisplay) {
+    profileDisplay.innerText = email || "User";
+  }
+}
+
+openAuth = function(mode) {
+  document.getElementById("auth-modal").classList.remove("hidden-view");
+  isLoginMode = mode === "login";
+  updateAuthUI();
+
+  const passwordInput = document.querySelector('#auth-modal input[type="password"]');
+  if (passwordInput) {
+    passwordInput.value = "";
+  }
+
+  const savedEmail = localStorage.getItem(REMEMBERED_EMAIL_KEY);
+  if (savedEmail) {
+    document.querySelector('#auth-modal input[type="email"]').value = savedEmail;
+    document.getElementById("remember-me").checked = true;
+  } else {
+    const session = readStoredSession();
+    document.querySelector('#auth-modal input[type="email"]').value = session?.email || "";
+    document.getElementById("remember-me").checked = false;
+  }
+};
+
+handleAuth = async function(e) {
+  e.preventDefault();
+
+  const email = document.querySelector('#auth-modal input[type="email"]').value.trim();
+  const password = document.querySelector('#auth-modal input[type="password"]').value;
+  const rememberMe = document.getElementById("remember-me").checked;
+  const endpoint = isLoginMode ? "/login" : "/signup";
+
+  if (!email || !password) {
+    alert("Enter both email and password");
+    return;
+  }
+
+  try {
+    const res = await fetch(API + endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+
+    if (data.status === "success" && data.session_token) {
+      persistSession(
+        {
+          user_id: data.user_id,
+          email: data.email || email,
+          token: data.session_token,
+        },
+        rememberMe
+      );
+      setProfileEmail(data.email || email);
+      closeAuth();
+      navigateToApp();
+    } else {
+      alert(data.error || "Login failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Cannot connect to server");
+  }
+};
+
+navigateToApp = function() {
+  const landing = document.getElementById("landing-page");
+  const app = document.getElementById("app-page");
+  landing.style.display = "none";
+  app.style.display = "flex";
+  landing.classList.add("hidden-view");
+  app.classList.remove("hidden-view");
+  closeAuth();
+  attachEnterHandler();
+};
+
+logOut = function() {
+  clearStoredSession();
+  appPage.style.display = "none";
+  appPage.classList.add("hidden-view");
+  landingPage.style.display = "flex";
+  landingPage.classList.remove("hidden-view");
+  setProfileEmail("User");
+};
+
+async function restoreSession() {
+  const session = readStoredSession();
+  if (!session?.token) return;
+
+  try {
+    const res = await fetch(`${API}/session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: session.token }),
+    });
+    const data = await res.json();
+    if (data.status === "success") {
+      persistSession(
+        {
+          user_id: data.user_id,
+          email: data.email || session.email,
+          token: session.token,
+        },
+        Boolean(localStorage.getItem(SESSION_STORAGE_KEY))
+      );
+      setProfileEmail(data.email);
+      navigateToApp();
+    } else {
+      clearStoredSession();
+    }
+  } catch (err) {
+    console.error("Session restore failed", err);
+  }
+}
+
+window.openAuth = openAuth;
+window.handleAuth = handleAuth;
+window.navigateToApp = navigateToApp;
+window.logOut = logOut;
+
+function refreshImagePanelHeight() {
+  const panel = document.getElementById("chat-image-panel");
+  if (!panel || !isImagePanelOpen) return;
+  panel.style.maxHeight = `${panel.scrollHeight}px`;
+}
+
+function openImagePicker() {
+  toggleImagePanel(true);
+  document.getElementById("image-input").click();
+}
+
+toggleImagePanel = function(forceOpen = null) {
+  const panel = document.getElementById("chat-image-panel");
+  const chevron = document.getElementById("image-panel-chevron");
+  if (!panel) return;
+
+  isImagePanelOpen = forceOpen === null ? !isImagePanelOpen : forceOpen;
+
+  if (isImagePanelOpen) {
+    panel.classList.add("open");
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+  } else {
+    panel.classList.remove("open");
+    panel.style.maxHeight = "0px";
+  }
+
+  if (chevron) {
+    chevron.style.transform = isImagePanelOpen ? "rotate(180deg)" : "rotate(0deg)";
+  }
+};
+
+function renderSelectedImagePreview(dataUrl, fileName) {
+  const previewBox = document.getElementById("image-preview-box");
+  if (!previewBox) return;
+
+  previewBox.innerHTML = `
+    <img src="${dataUrl}" alt="${escapeHtml(fileName)}" class="w-full h-full object-cover rounded-2xl" />
+    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 to-transparent p-4 text-left">
+      <p class="text-xs uppercase tracking-[0.24em] text-slate-400">Queued for review</p>
+      <p class="text-sm text-white mt-1 truncate">${escapeHtml(fileName)}</p>
+    </div>
+  `;
+}
+
+function setImageAnalysisState(status, vertexText = "", finalText = "") {
+  document.getElementById("image-analysis-status").innerText = status;
+  document.getElementById("vertex-analysis-output").innerHTML = vertexText ? formatRichText(vertexText) : "No image analysis yet.";
+  document.getElementById("image-analysis-output").innerHTML = finalText ? formatRichText(finalText) : "The final medical synthesis will appear here after the VM receives the Vertex summary.";
+  refreshImagePanelHeight();
+}
+
+handleImageUpload = function(event) {
+  if (event?.stopImmediatePropagation) {
+    event.stopImmediatePropagation();
+  }
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  selectedImage = file;
+  toggleImagePanel(true);
+  setImageAnalysisState("Image selected. Ready to send to Vertex AI.");
+
+  const reader = new FileReader();
+  reader.onload = function(loadEvent) {
+    selectedImagePreviewUrl = loadEvent.target.result;
+    renderSelectedImagePreview(selectedImagePreviewUrl, file.name);
+    refreshImagePanelHeight();
+  };
+  reader.readAsDataURL(file);
+};
+
+function clearChat() {
+  document.getElementById("chat-thread").innerHTML = `
+    <div id="chat-empty-state" class="message-column-assistant rounded-[28px] border border-white/10 bg-white/[0.03] p-6 md:p-8 text-left">
+      <p class="text-xs uppercase tracking-[0.24em] text-slate-500 mb-3">Care Workspace</p>
+      <h3 class="text-xl font-semibold text-white tracking-tight">Start with symptoms, a voice note, or an uploaded image.</h3>
+      <p class="text-sm text-slate-400 mt-3 leading-relaxed">The centered chat thread keeps the consultation easy to read, while the Image Analysis drawer stays tucked away until you need image review.</p>
+    </div>
+  `;
+  document.getElementById("chat-input").value = "";
+  document.getElementById("image-input").value = "";
+  selectedImage = null;
+  selectedImagePreviewUrl = null;
+  window.latestAIResponseText = "";
+  document.getElementById("image-preview-box").innerHTML = `
+    <div id="image-preview-placeholder" class="space-y-3">
+      <div class="w-14 h-14 rounded-2xl mx-auto bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">
+        <iconify-icon icon="solar:gallery-add-linear" class="text-2xl"></iconify-icon>
+      </div>
+      <p class="text-sm text-slate-300">No image selected yet</p>
+      <p class="text-xs text-slate-500">Upload a medical image to trigger the Vertex AI review pipeline.</p>
+    </div>
+  `;
+  setImageAnalysisState("Upload an image to send it to Vertex AI. The model response will appear here before the VM creates the final medical analysis.");
+}
+
+function attachEnterHandler() {
+  const textarea = document.getElementById("chat-input");
+  if (!textarea || textarea.dataset.enterBound === "true") return;
+
+  textarea.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  });
+  textarea.dataset.enterBound = "true";
+}
+
+// Keep the conversation visually narrow so replies read like a chat thread, not a full-width dashboard card.
+appendMessage = function(role, text, imageURL = null, id = null) {
+  const chatHistory = document.getElementById("chat-thread");
+  const emptyState = document.getElementById("chat-empty-state");
+  if (emptyState) emptyState.remove();
+
+  if (id) {
+    const existing = document.getElementById(id);
+    if (existing) {
+      const textDiv = existing.querySelector(".text-content");
+      if (textDiv) {
+        textDiv.innerHTML = formatRichText(text);
+      }
+      if (role === "assistant") {
+        stopActiveTTS();
+        window.latestAIResponseText = stripMetricJsonBlock(text);
+      }
+      return id;
+    }
+  }
+
+  const wrapper = document.createElement("div");
+  const messageId = `msg-${Date.now()}`;
+  wrapper.id = messageId;
+  wrapper.className = `message-row ${role === "user" ? "user-row" : "assistant-row"}`;
+
+  const imageMarkup = imageURL
+    ? `<div class="mb-3"><img src="${imageURL}" class="rounded-2xl max-w-[220px] border border-white/10 shadow-lg" alt="Uploaded image preview" /></div>`
+    : "";
+
+  wrapper.innerHTML = `
+    <div class="${role === "user" ? "message-column-user" : "message-column-assistant"} flex flex-col">
+      <span class="text-[10px] text-slate-500 mb-1 px-1 ${role === "user" ? "text-right" : "text-left"} uppercase tracking-[0.22em] font-medium">
+        ${role === "user" ? "You" : "Gram.AI"}
+      </span>
+      <div class="px-4 py-3.5 ${role === "user" ? "message-bubble-user" : "message-bubble-assistant"}">
+        ${imageMarkup}
+        <div class="text-sm leading-relaxed text-content">${formatRichText(text)}</div>
+      </div>
+    </div>
+  `;
+
+  if (role === "assistant") {
+    stopActiveTTS();
+    window.latestAIResponseText = stripMetricJsonBlock(text);
+  }
+
+  chatHistory.appendChild(wrapper);
+  document.getElementById("chat-history").scrollTop = document.getElementById("chat-history").scrollHeight;
+  return messageId;
+};
+
+// Rebuild the chart from live API data so the dashboard updates after each new consultation.
+renderDashboardChart = async function(metricType) {
+  const ctx = document.getElementById("dashboardChart");
+  if (!ctx) return;
+
+  if (dashboardChartInstance) {
+    dashboardChartInstance.destroy();
+  }
+
+  Chart.defaults.color = "#94a3b8";
+  Chart.defaults.font.family = "'Geist', 'Inter', sans-serif";
+
+  try {
+    const res = await fetch(`${API}/metrics/readings?patient_id=1`);
+    const dbData = await res.json();
+    const labels = dbData.labels?.length ? dbData.labels : ["No Data Yet"];
+
+    let chartType = "line";
+    let dataConfig;
+
+    if (metricType === "vitals") {
+      dataConfig = {
+        labels,
+        datasets: [
+          {
+            label: "Heart Rate (bpm)",
+            data: dbData.heart_rate?.length ? dbData.heart_rate : [0],
+            borderColor: "#38bdf8",
+            backgroundColor: "rgba(56, 189, 248, 0.16)",
+            tension: 0.35,
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 3,
+            yAxisID: "y",
+          },
+          {
+            label: "Systolic BP (mmHg)",
+            data: dbData.systolic_bp?.length ? dbData.systolic_bp : [0],
+            borderColor: "#10b981",
+            backgroundColor: "rgba(16, 185, 129, 0.12)",
+            tension: 0.35,
+            borderDash: [6, 4],
+            borderWidth: 2,
+            pointRadius: 3,
+            yAxisID: "y1",
+          },
+        ],
+      };
+    } else {
+      chartType = "bar";
+      dataConfig = {
+        labels,
+        datasets: [
+          {
+            label: "Glucose (mg/dL)",
+            data: dbData.glucose?.length ? dbData.glucose : [0],
+            borderColor: "#10b981",
+            backgroundColor: (dbData.glucose?.map((value) => value > 120 ? "rgba(239, 68, 68, 0.75)" : "rgba(16, 185, 129, 0.75)") || ["rgba(16, 185, 129, 0.35)"]),
+            borderRadius: 10,
+            borderSkipped: false,
+          },
+        ],
+      };
+    }
+
+    dashboardChartInstance = new Chart(ctx, {
+      type: chartType,
+      data: dataConfig,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 450 },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { labels: { usePointStyle: true, boxWidth: 8 } },
+          tooltip: {
+            backgroundColor: "rgba(15, 23, 42, 0.92)",
+            titleColor: "#fff",
+            bodyColor: "#cbd5e1",
+            borderColor: "rgba(255,255,255,0.1)",
+            borderWidth: 1,
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: "rgba(255,255,255,0.05)" },
+            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6 },
+          },
+          y: {
+            type: "linear",
+            display: true,
+            position: "left",
+            beginAtZero: true,
+            grid: { color: "rgba(255,255,255,0.05)" },
+          },
+          ...(metricType === "vitals" && {
+            y1: {
+              type: "linear",
+              display: true,
+              position: "right",
+              beginAtZero: true,
+              grid: { drawOnChartArea: false },
+            },
+          }),
+        },
+      },
+    });
+  } catch (err) {
+    console.error("Failed to load metrics graph", err);
+  }
+};
+
+function refreshDashboardData() {
+  if (!document.getElementById("view-dashboard").classList.contains("hidden-view")) {
+    updateDashboardChart();
+    loadDashboardStats();
+  }
+}
+
+function startDashboardRealtimeRefresh() {
+  stopDashboardRealtimeRefresh();
+  dashboardRefreshTimer = window.setInterval(() => {
+    refreshDashboardData();
+  }, 15000);
+}
+
+function stopDashboardRealtimeRefresh() {
+  if (dashboardRefreshTimer) {
+    window.clearInterval(dashboardRefreshTimer);
+    dashboardRefreshTimer = null;
+  }
+}
+
+sendMessage = async function() {
+  const textarea = document.getElementById("chat-input");
+  const text = textarea.value.trim();
+
+  if (!text && !selectedImage) return;
+
+  const session = readStoredSession();
+  const userId = Number(session?.user_id || 0);
+  const userText = selectedImage ? (text || "Image uploaded for analysis.") : text;
+  const loadingId = appendMessage("user", userText, selectedImage ? selectedImagePreviewUrl : null);
+  const aiLoadingId = appendMessage("assistant", selectedImage ? "Sending image to Vertex AI..." : "Analyzing...");
+
+  try {
+    let data;
+    let responseText = "";
+
+    if (selectedImage) {
+      toggleImagePanel(true);
+      setImageAnalysisState("Sending image to Vertex AI for analysis...");
+
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+      formData.append("text", text);
+      formData.append("user_id", userId);
+      formData.append("patient_id", 1);
+
+      const res = await fetch(`${API}/analyze-image`, {
+        method: "POST",
+        body: formData,
+      });
+      data = await res.json();
+      responseText = data.final_response || data.response || data.detail || "Image analysis failed.";
+      setImageAnalysisState(
+        res.ok ? "Vertex AI analysis complete. Forwarded to the VM for medical synthesis." : "Image analysis failed before the medical synthesis step.",
+        data.vertex_analysis || data.detail || "",
+        responseText
+      );
+      selectedImage = null;
+      document.getElementById("image-input").value = "";
+    } else {
+      const res = await fetch(`${API}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, user_id: userId, patient_id: 1 }),
+      });
+      data = await res.json();
+      responseText = data.response || data.detail || "Unable to complete the request.";
+    }
+
+    appendMessage("assistant", responseText, null, aiLoadingId);
+    window.latestAIResponseText = stripMetricJsonBlock(responseText);
+    textarea.value = "";
+    textarea.style.height = "";
+    refreshDashboardData();
+    loadPatientAnalysis();
+  } catch (err) {
+    console.error(err);
+    appendMessage("assistant", "Server error", null, aiLoadingId);
+    if (selectedImage) {
+      setImageAnalysisState("The upload request failed before a Vertex AI response was received.");
+    }
+  }
+};
+
+window.switchAppView = function(viewName) {
+  originalSwitchAppView(viewName);
+  if (viewName === "dashboard") {
+    setTimeout(() => {
+      refreshDashboardData();
+    }, 80);
+    startDashboardRealtimeRefresh();
+  } else {
+    stopDashboardRealtimeRefresh();
+  }
+
+  if (viewName === "patients") {
+    loadPatientAnalysis();
+  }
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  updateAuthUI();
+  attachEnterHandler();
+  restoreSession();
+  setImageAnalysisState("Upload an image to send it to Vertex AI. The model response will appear here before the VM creates the final medical analysis.");
 });
 
 </script>

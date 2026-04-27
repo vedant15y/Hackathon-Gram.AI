@@ -6,6 +6,10 @@ class UserAuth(BaseModel):
     email: str
     password: str
 
+
+class SessionRequest(BaseModel):
+    token: str
+
 class PatientCreate(BaseModel):
     name: str
     age: int

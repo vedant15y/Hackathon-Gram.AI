@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+
+venv/
+.venv/
+
+uvicorn.log
+uvicorn.err
+out.mp3
+voice.mp3
+
+test-upload.jpg
+test-upload.png
